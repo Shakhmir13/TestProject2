@@ -41,7 +41,7 @@ builder.Services.AddAuthorization(options => options.DefaultPolicy =
         .Build());
 builder.Services.AddSwaggerGen(option =>
 {
-    option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TestProject2.xml"));
+    option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "webapi.xml"));
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "TestProject2", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
