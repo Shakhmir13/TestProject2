@@ -1,0 +1,16 @@
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using TestProject2.Models;
+
+namespace TestProject2.DbContext
+{
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+
+        }
+        
+    }
+}
