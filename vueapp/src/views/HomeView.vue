@@ -6,7 +6,7 @@ import Button from 'primevue/button'
 	<h2>Добро пожаловать Нурик</h2>
 	<Button label="Submit" />
 
-	<router-link to="/sign-in">это ссылка на другую страницу</router-link>
+	<router-link to="/signup">это ссылка на страницу регистрации</router-link>
 </template>
 
 <style scoped></style>

@@ -1,7 +1,14 @@
 <script setup></script>
 
 <template>
-	<router-view />
+	<div class="container">
+		<router-view />
+	</div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.container {
+	max-width: 700px;
+	margin: auto;
+}
+</style>
