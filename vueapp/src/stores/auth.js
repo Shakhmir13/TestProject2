@@ -1,21 +1,22 @@
 import axios from 'axios'
+import { defineStore } from 'pinia'
 
-export const HTTP = axios.create({
-	baseURL: 'http://161.97.110.154/accounts/refresh-token',
-	headers: {
-		'Content-Type': 'application/json',
-		Authorization: `Bearer ${localStorage.getItem('token')}`,
-	},
-})
+const apiKey = 'AIzaSyDnFoxbzuKEuoAYxACl_leEQ-320W7T-xE'
 
-export default {
-	async getWeather() {
+export const useAuthStore = defineStore('auth', () => {
+	const signup = async payload => {
 		try {
-			const response = await HTTP.get('/WeatherForecast')
+			let response = await axios.post(
+				`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
+				{
+					...payload,
+					returnSecureToken: true,
+				}
+			)
 			console.log(response.data)
-			return response.data
 		} catch (error) {
-			console.log(error)
+			console.log(error.response)
 		}
-	},
-}
+	}
+	return { signup }
+})
