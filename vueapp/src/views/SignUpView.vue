@@ -1,18 +1,27 @@
 <script setup>
-import { useAuthStore } from '@/stores/auth.js'
-import { ref } from 'vue'
-
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import { ref } from 'vue'
 
-const authStore = useAuthStore()
+import api from '@/api.js'
 
 const email = ref('')
+const birthDate = ref('')
 const password = ref('')
+const passwordConfirm = ref('')
+const firstName = ref('')
+const lastName = ref('')
 
-const signup = async () => {
-	console.log('test')
-	await authStore.signup({ email: email.value, password: password.value })
+const signupHandler = async () => {
+	console.log(api)
+	api.signUp({
+		email: email.value,
+		birthDate: birthDate.value,
+		password: password.value,
+		passwordConfirm: passwordConfirm.value,
+		firstName: firstName.value,
+		lastName: lastName.value,
+	})
 }
 </script>
 
@@ -23,16 +32,46 @@ const signup = async () => {
 			<span class="p-inputgroup-addon">
 				<i class="pi pi-user"></i>
 			</span>
-			<InputText type="email" v-model="email" placeholder="Your email" />
+			<InputText v-model="email" placeholder="Your email" />
 		</div>
+
 		<div class="p-inputgroup flex-1">
 			<span class="p-inputgroup-addon">
 				<i class="pi pi-at"></i>
 			</span>
-			<InputText type="password" v-model="password" placeholder="Password" />
+			<InputText v-model="birthDate" placeholder="birthDate" />
 		</div>
+
+		<div class="p-inputgroup flex-1">
+			<span class="p-inputgroup-addon">
+				<i class="pi pi-at"></i>
+			</span>
+			<InputText v-model="password" placeholder="Password" />
+		</div>
+
+		<div class="p-inputgroup flex-1">
+			<span class="p-inputgroup-addon">
+				<i class="pi pi-at"></i>
+			</span>
+			<InputText v-model="passwordConfirm" placeholder="password Confirm" />
+		</div>
+
+		<div class="p-inputgroup flex-1">
+			<span class="p-inputgroup-addon">
+				<i class="pi pi-chevron-right"></i>
+			</span>
+			<InputText v-model="firstName" placeholder="first Name" />
+		</div>
+
+		<div class="p-inputgroup flex-1">
+			<span class="p-inputgroup-addon">
+				<i class="pi pi-chevron-right"></i>
+			</span>
+			<InputText v-model="lastName" placeholder="last Name" />
+		</div>
+
 		<div class="flex flex-column gap-3">
-			<Button label="Sign up" @click="signup" />
+			<Button label="Sign up" @click="signupHandler" />
 			<span
 				>Bro, are you already registered?
 				<router-link to="/signin">Sign in</router-link>
