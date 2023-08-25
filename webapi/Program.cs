@@ -85,7 +85,7 @@ builder.Services.ConfigureApplicationCookie(option =>
 });
 
 var app = builder.Build();
-app.UseCors(builder => builder.AllowAnyOrigin());
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
