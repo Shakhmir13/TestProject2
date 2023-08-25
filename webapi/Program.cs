@@ -14,7 +14,7 @@ using TestProject2.Utility.Token;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(opt => {
@@ -85,6 +85,7 @@ builder.Services.ConfigureApplicationCookie(option =>
 });
 
 var app = builder.Build();
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
