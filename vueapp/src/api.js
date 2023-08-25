@@ -16,22 +16,14 @@ export default {
 		}
 	},
 
-	async signUp() {
+	async signUp(userData) {
 		try {
-			const userData = {
-				email: 'Test17@test.kz',
-				birthDate: '1998-01-26',
-				password: 'Q2w3e4r5t6!*',
-				passwordConfirm: 'Q2w3e4r5t6!*',
-				firstName: 'Nurik',
-				lastName: 'Test',
-			}
-
 			const response = await HTTP.post('accounts/register', userData)
 			console.log(response.data)
 			return response.data
 		} catch (error) {
 			console.log(error.response)
+			throw error
 		}
 	},
 }

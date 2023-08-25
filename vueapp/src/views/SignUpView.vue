@@ -17,6 +17,31 @@ onMounted(() => {
 	api.getWeather()
 	api.signUp()
 })
+
+const handleSignUp = async () => {
+	// Соберите данные из полей формы
+	const userData = {
+		email: email.value,
+		birthDate: birthDate.value,
+		password: password.value,
+		passwordConfirm: passwordConfirm.value,
+		firstName: firstName.value,
+		lastName: lastName.value,
+	}
+
+	// Отправьте данные на сервер
+	try {
+		const response = await api.signUp(userData)
+
+		// Обработайте успешный ответ от сервера
+		console.log('Registration successful:', response)
+		// Можете выполнить редирект на другую страницу или показать сообщение об успешной регистрации.
+	} catch (error) {
+		// Обработайте ошибку
+		console.error('Registration error:', error)
+		// Показать сообщение об ошибке или выполнить другие действия при неудачной регистрации.
+	}
+}
 </script>
 
 <template>
@@ -65,7 +90,7 @@ onMounted(() => {
 		</div>
 
 		<div class="flex flex-column gap-3">
-			<Button label="Sign up" />
+			<Button label="Sign up" @click="handleSignUp" />
 			<span
 				>Bro, are you already registered?
 				<router-link to="/signin">Sign in</router-link>
