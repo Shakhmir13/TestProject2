@@ -5,28 +5,29 @@ export const HTTP = axios.create({
 	baseURL: config.BASEURL,
 })
 
-// HTTP.interceptors.request
-
 export default {
-	async signUp(
-		email,
-		birthDate,
-		password,
-		passwordConfirm,
-		firstName,
-		lastName
-	) {
+	async getWeather() {
+		try {
+			const response = await HTTP.get('WeatherForecast/')
+			console.log(response.data)
+			return response.data
+		} catch (error) {
+			console.log(error.response)
+		}
+	},
+
+	async signUp() {
 		try {
 			const userData = {
-				email,
-				birthDate,
-				password,
-				passwordConfirm,
-				firstName,
-				lastName,
+				email: 'Test17@test.kz',
+				birthDate: '1998-01-26',
+				password: 'Q2w3e4r5t6!*',
+				passwordConfirm: 'Q2w3e4r5t6!*',
+				firstName: 'Nurik',
+				lastName: 'Test',
 			}
 
-			const response = await HTTP.post('/accounts/register', userData)
+			const response = await HTTP.post('accounts/register', userData)
 			console.log(response.data)
 			return response.data
 		} catch (error) {

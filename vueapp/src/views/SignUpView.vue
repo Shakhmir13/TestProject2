@@ -4,6 +4,7 @@ import InputText from 'primevue/inputtext'
 import { ref } from 'vue'
 
 import api from '@/api.js'
+import { onMounted } from 'vue'
 
 const email = ref('')
 const birthDate = ref('')
@@ -12,17 +13,10 @@ const passwordConfirm = ref('')
 const firstName = ref('')
 const lastName = ref('')
 
-const signupHandler = async () => {
-	console.log(api)
-	api.signUp({
-		email: email.value,
-		birthDate: birthDate.value,
-		password: password.value,
-		passwordConfirm: passwordConfirm.value,
-		firstName: firstName.value,
-		lastName: lastName.value,
-	})
-}
+onMounted(() => {
+	api.getWeather()
+	api.signUp()
+})
 </script>
 
 <template>
@@ -71,7 +65,7 @@ const signupHandler = async () => {
 		</div>
 
 		<div class="flex flex-column gap-3">
-			<Button label="Sign up" @click="signupHandler" />
+			<Button label="Sign up" />
 			<span
 				>Bro, are you already registered?
 				<router-link to="/signin">Sign in</router-link>
