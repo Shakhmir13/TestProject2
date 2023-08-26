@@ -16,11 +16,31 @@ export const useAuthStore = defineStore('auth', () => {
 	})
 
 	const error = ref('')
+	const loader = ref(false)
 
-	const signUp = async userData => {
+	const auth = async userData => {
 		error.value = ''
+		loader.value = true
+
 		try {
-			const response = await HTTP.post('accounts/register', userData)
+			let response
+
+			if (userData.registration) {
+				// Регистрация: отправляем запрос на регистрацию
+				response = await HTTP.post('accounts/register', {
+					email: userData.email,
+					birthDate: userData.birthDate,
+					password: userData.password,
+					passwordConfirm: userData.passwordConfirm,
+					firstName: userData.firstName,
+					lastName: userData.lastName,
+				})
+			} else {
+				response = await HTTP.post('accounts/login', {
+					email: userData.email,
+					password: userData.password,
+				})
+			}
 
 			userInfo.value = {
 				token: response.data.token,
@@ -29,6 +49,7 @@ export const useAuthStore = defineStore('auth', () => {
 				refreshToken: response.data.refreshToken,
 			}
 			console.log('Из auth.js файла:', response.data)
+			loader.value = false
 		} catch (err) {
 			console.log(err.response.data.lastName)
 			switch (err.response.data.lastName) {
@@ -39,8 +60,9 @@ export const useAuthStore = defineStore('auth', () => {
 					error.value = 'Какая-то ошибка'
 					break
 			}
+			loader.value = false
 		}
 	}
 
-	return { signUp, userInfo, error }
+	return { auth, userInfo, error, loader }
 })

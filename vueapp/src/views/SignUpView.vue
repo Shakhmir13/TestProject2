@@ -1,7 +1,9 @@
 <script setup>
+import Loader from '@/components/Loader.vue'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Message from 'primevue/message'
+
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -19,6 +21,7 @@ const router = useRouter()
 
 const handleSignUp = async () => {
 	const userData = {
+		registration: true, // операция регистрации
 		email: email.value,
 		birthDate: birthDate.value,
 		password: password.value,
@@ -27,7 +30,7 @@ const handleSignUp = async () => {
 		lastName: lastName.value,
 	}
 
-	await authStore.signUp(userData)
+	await authStore.auth(userData)
 }
 </script>
 
@@ -79,7 +82,8 @@ const handleSignUp = async () => {
 			<InputText v-model="lastName" placeholder="last Name" />
 		</div>
 
-		<div class="flex flex-column gap-3">
+		<Loader v-if="authStore.loader" />
+		<div v-else class="flex flex-column gap-3">
 			<Button label="Sign up" @click="handleSignUp" />
 			<span
 				>Bro, are you already registered?
