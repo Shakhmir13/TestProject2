@@ -18,7 +18,6 @@ const lastName = ref('')
 const router = useRouter()
 
 const handleSignUp = async () => {
-	// Соберите данные из полей формы
 	const userData = {
 		email: email.value,
 		birthDate: birthDate.value,
@@ -35,7 +34,9 @@ const handleSignUp = async () => {
 <template>
 	<h2>Sign up</h2>
 	<form class="flex flex-column gap-3">
-		<Message severity="success">Success Message Content</Message>
+		<Message v-if="authStore.error" severity="warn">{{
+			authStore.error
+		}}</Message>
 		<div class="p-inputgroup flex-1">
 			<span class="p-inputgroup-addon">
 				<i class="pi pi-user"></i>
