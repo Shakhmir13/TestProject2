@@ -1,10 +1,12 @@
 <script setup>
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import Message from 'primevue/message'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-import api from '@/api.js'
-import { onMounted } from 'vue'
+import { useAuthStore } from '@/stores/auth.js'
+const authStore = useAuthStore()
 
 const email = ref('')
 const birthDate = ref('')
@@ -13,10 +15,7 @@ const passwordConfirm = ref('')
 const firstName = ref('')
 const lastName = ref('')
 
-onMounted(() => {
-	api.getWeather()
-	api.signUp()
-})
+const router = useRouter()
 
 const handleSignUp = async () => {
 	// Соберите данные из полей формы
@@ -29,24 +28,14 @@ const handleSignUp = async () => {
 		lastName: lastName.value,
 	}
 
-	// Отправьте данные на сервер
-	try {
-		const response = await api.signUp(userData)
-
-		// Обработайте успешный ответ от сервера
-		console.log('Registration successful:', response)
-		// Можете выполнить редирект на другую страницу или показать сообщение об успешной регистрации.
-	} catch (error) {
-		// Обработайте ошибку
-		console.error('Registration error:', error)
-		// Показать сообщение об ошибке или выполнить другие действия при неудачной регистрации.
-	}
+	await authStore.signUp(userData)
 }
 </script>
 
 <template>
 	<h2>Sign up</h2>
 	<form class="flex flex-column gap-3">
+		<Message severity="success">Success Message Content</Message>
 		<div class="p-inputgroup flex-1">
 			<span class="p-inputgroup-addon">
 				<i class="pi pi-user"></i>

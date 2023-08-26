@@ -15,15 +15,4 @@ export default {
 			console.log(error.response)
 		}
 	},
-
-	async signUp(userData) {
-		try {
-			const response = await HTTP.post('accounts/register', userData)
-			console.log(response.data)
-			return response.data
-		} catch (error) {
-			console.log(error.response)
-			throw error
-		}
-	},
 }
