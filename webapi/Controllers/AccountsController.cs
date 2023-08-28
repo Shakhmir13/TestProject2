@@ -113,6 +113,17 @@ namespace TestProject2.Controllers
 
                 return BadRequest(errorResponse);
             }
+            var existuser = _context.Users.FirstOrDefault(u => u.Email == request.Email);
+            if (existuser != null) 
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "Ошибка аутентификации",
+                    Errors = new List<string> { "Пользователь с таким email уже существует" }
+                };
+
+                return BadRequest(errorResponse);
+            }
             var user = new ApplicationUser
             {
                 FirstName = request.FirstName,
