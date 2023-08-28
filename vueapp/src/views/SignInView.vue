@@ -23,6 +23,7 @@ const handleSignUp = async () => {
 	}
 
 	await authStore.auth(userData)
+	router.push('/')
 }
 </script>
 

@@ -49,17 +49,20 @@ export const useAuthStore = defineStore('auth', () => {
 				refreshToken: response.data.refreshToken,
 			}
 			console.log('Из auth.js файла:', response.data)
-			loader.value = false
 		} catch (err) {
-			console.log(err.response.data.lastName)
-			switch (err.response.data.lastName) {
-				case 'Berikbolov':
-					error.value = 'Берикболов уже есть тут'
+			console.log(err.response.data.errors.PasswordConfirm[0])
+			switch (err.response.data.errors.PasswordConfirm[0]) {
+				case 'Пароли не совпадают':
+					error.value = 'Пароли не совпадают'
 					break
+
 				default:
 					error.value = 'Какая-то ошибка'
 					break
 			}
+
+			throw error.value
+		} finally {
 			loader.value = false
 		}
 	}
