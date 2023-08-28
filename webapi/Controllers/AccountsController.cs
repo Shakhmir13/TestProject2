@@ -47,14 +47,26 @@ namespace TestProject2.Controllers
 
             if (managedUser == null)
             {
-                return BadRequest("Bad credentials");
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "Ошибка аутентификации",
+                    Errors = new List<string> { "Пользователь с таким email не существует" }
+                };
+
+                return BadRequest(errorResponse);
             }
 
             var isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, request.Password);
 
             if (!isPasswordValid)
             {
-                return BadRequest("Bad credentials");
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "Ошибка аутентификации",
+                    Errors = new List<string> { "Неверный пароль" }
+                };
+
+                return BadRequest(errorResponse);
             }
 
             var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
@@ -90,7 +102,28 @@ namespace TestProject2.Controllers
         [ProducesResponseType(typeof(string), 400)]
         public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
         {
-            if (!ModelState.IsValid) return BadRequest(request);
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "Ошибка регистрации пользователя",
+                    Errors = errors
+                };
+
+                return BadRequest(errorResponse);
+            }
+            var existuser = _context.Users.FirstOrDefault(u => u.Email == request.Email);
+            if (existuser != null) 
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "Ошибка аутентификации",
+                    Errors = new List<string> { "Пользователь с таким email уже существует" }
+                };
+
+                return BadRequest(errorResponse);
+            }
             var user = new ApplicationUser
             {
                 FirstName = request.FirstName,

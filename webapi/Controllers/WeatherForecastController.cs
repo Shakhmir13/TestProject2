@@ -34,6 +34,7 @@ namespace TestProject2.Controllers
         ///
         /// </remarks>
         /// <returns>Возвращает массив с прогнозами погоды.</returns>
+        [Authorize]
         [HttpGet]
         [SwaggerOperation(Summary = "Получает прогноз погоды")]
         [SwaggerResponse(200, "Успешный ответ", typeof(IEnumerable<WeatherForecast>))]
