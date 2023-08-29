@@ -1,6 +1,6 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core'
-import { helpers, minLength } from '@vuelidate/validators'
+import { email, minLength } from '@vuelidate/validators'
 
 import Loader from '@/components/Loader.vue'
 import Button from 'primevue/button'
@@ -13,7 +13,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
 const authStore = useAuthStore()
 
-const email = ref('')
+const userEmail = ref('')
 const birthDate = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
@@ -22,14 +22,14 @@ const lastName = ref('')
 
 const rules = computed(() => ({
 	password: {
-		minLength: helpers.withMessage(
-			'Минимальная длина: 8 символов',
-			minLength(8)
-		),
+		minLength: minLength(8),
+	},
+	userEmail: {
+		email: email,
 	},
 }))
 
-const v = useVuelidate(rules, { password })
+const v = useVuelidate(rules, { password, userEmail })
 console.log(v)
 
 const router = useRouter()
@@ -37,7 +37,7 @@ const router = useRouter()
 const handleSignUp = async () => {
 	const userData = {
 		registration: true, // операция регистрации
-		email: email.value,
+		email: userEmail.value,
 		birthDate: birthDate.value,
 		password: password.value,
 		passwordConfirm: passwordConfirm.value,
@@ -57,7 +57,10 @@ const handleSignUp = async () => {
 			<span class="p-inputgroup-addon">
 				<i class="pi pi-user"></i>
 			</span>
-			<InputText v-model="email" placeholder="Your email" />
+			<InputText v-model="v.userEmail.$model" placeholder="Your email" />
+			<InlineMessage v-for="error in v.userEmail.$errors" :key="error.$uid">
+				{{ error.$message }}
+			</InlineMessage>
 		</div>
 
 		<div class="p-inputgroup flex-1">
@@ -72,7 +75,7 @@ const handleSignUp = async () => {
 				<i class="pi pi-at"></i>
 			</span>
 			<InputText v-model="v.password.$model" placeholder="Password" />
-			<InlineMessage v-for="error in v.$errors" :key="error.$uid">{{
+			<InlineMessage v-for="error in v.password.$errors" :key="error.$uid">{{
 				error.$message
 			}}</InlineMessage>
 		</div>
