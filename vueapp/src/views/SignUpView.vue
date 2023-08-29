@@ -1,10 +1,13 @@
 <script setup>
+import { useVuelidate } from '@vuelidate/core'
+import { helpers, minLength } from '@vuelidate/validators'
+
 import Loader from '@/components/Loader.vue'
 import Button from 'primevue/button'
+import InlineMessage from 'primevue/inlinemessage'
 import InputText from 'primevue/inputtext'
-import Message from 'primevue/message'
 
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth.js'
@@ -16,6 +19,18 @@ const password = ref('')
 const passwordConfirm = ref('')
 const firstName = ref('')
 const lastName = ref('')
+
+const rules = computed(() => ({
+	password: {
+		minLength: helpers.withMessage(
+			'Минимальная длина: 8 символов',
+			minLength(8)
+		),
+	},
+}))
+
+const v = useVuelidate(rules, { password })
+console.log(v)
 
 const router = useRouter()
 
@@ -38,9 +53,6 @@ const handleSignUp = async () => {
 <template>
 	<h2>Sign up</h2>
 	<form class="flex flex-column gap-3">
-		<Message v-if="authStore.error" severity="warn">{{
-			authStore.error
-		}}</Message>
 		<div class="p-inputgroup flex-1">
 			<span class="p-inputgroup-addon">
 				<i class="pi pi-user"></i>
@@ -59,7 +71,10 @@ const handleSignUp = async () => {
 			<span class="p-inputgroup-addon">
 				<i class="pi pi-at"></i>
 			</span>
-			<InputText v-model="password" placeholder="Password" />
+			<InputText v-model="v.password.$model" placeholder="Password" />
+			<InlineMessage v-for="error in v.$errors" :key="error.$uid">{{
+				error.$message
+			}}</InlineMessage>
 		</div>
 
 		<div class="p-inputgroup flex-1">
