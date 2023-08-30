@@ -5,18 +5,28 @@ import Card from 'primevue/card'
 
 import { useAuthStore } from '@/stores/auth.js'
 import { onMounted, ref } from 'vue'
-
 const authStore = useAuthStore()
+
+import config from '@/config.js'
+import axios from 'axios'
+const HTTP = axios.create({
+	baseURL: config.BASEURL,
+})
+const token = authStore.userInfo.token
+HTTP.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
 const weathers = ref()
 const showLoader = ref(false)
 
 const getWeather = async () => {
+	showLoader.value = true
 	try {
-		const response = await HTTP.get('WeatherForecast')
-		console.log(response.data)
+		const response = await HTTP.get('WeatherForecast/')
+		weathers.value = response.data
 	} catch (error) {
 		console.log(error.response)
+	} finally {
+		showLoader.value = false
 	}
 }
 

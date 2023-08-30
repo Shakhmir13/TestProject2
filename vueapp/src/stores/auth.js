@@ -50,6 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
 			}
 			console.log('Из auth.js файла:', response.data)
 		} catch (err) {
+			// TODO: доделать catch ошибок. Для этого жду от Шахи подтверждение
 			console.log(err.response.data.errors.PasswordConfirm[0])
 			switch (err.response.data.errors.PasswordConfirm[0]) {
 				case 'Пароли не совпадают':
