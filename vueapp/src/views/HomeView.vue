@@ -12,8 +12,12 @@ import axios from 'axios'
 const HTTP = axios.create({
 	baseURL: config.BASEURL,
 })
-const token = authStore.userInfo.token
-HTTP.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+HTTP.interceptors.request.use(config => {
+	const token = authStore.userInfo.token
+	config.headers.Authorization = `Bearer ${token}`
+	return config
+})
 
 const weathers = ref()
 const showLoader = ref(false)
