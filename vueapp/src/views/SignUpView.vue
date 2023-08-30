@@ -1,9 +1,10 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core'
-import { email, minLength } from '@vuelidate/validators'
+import { email, helpers, minLength, sameAs } from '@vuelidate/validators'
 
 import Loader from '@/components/Loader.vue'
 import Button from 'primevue/button'
+import Calendar from 'primevue/calendar'
 import InlineMessage from 'primevue/inlinemessage'
 import InputText from 'primevue/inputtext'
 
@@ -27,9 +28,15 @@ const rules = computed(() => ({
 	userEmail: {
 		email: email,
 	},
+	passwordConfirm: {
+		sameAsPassword: helpers.withMessage(
+			'Пароли не совпадают',
+			sameAs(password.value)
+		),
+	},
 }))
 
-const v = useVuelidate(rules, { password, userEmail })
+const v = useVuelidate(rules, { password, userEmail, passwordConfirm })
 console.log(v)
 
 const router = useRouter()
@@ -54,9 +61,6 @@ const handleSignUp = async () => {
 	<h2>Sign up</h2>
 	<form class="flex flex-column gap-3">
 		<div class="p-inputgroup flex-1">
-			<span class="p-inputgroup-addon">
-				<i class="pi pi-user"></i>
-			</span>
 			<InputText v-model="v.userEmail.$model" placeholder="Your email" />
 			<InlineMessage v-for="error in v.userEmail.$errors" :key="error.$uid">
 				{{ error.$message }}
@@ -64,16 +68,14 @@ const handleSignUp = async () => {
 		</div>
 
 		<div class="p-inputgroup flex-1">
-			<span class="p-inputgroup-addon">
-				<i class="pi pi-at"></i>
-			</span>
-			<InputText v-model="birthDate" placeholder="birthDate" />
+			<Calendar
+				v-model="birthDate"
+				dateFormat="yy-mm-dd"
+				placeholder="BirthDate"
+			/>
 		</div>
 
 		<div class="p-inputgroup flex-1">
-			<span class="p-inputgroup-addon">
-				<i class="pi pi-at"></i>
-			</span>
 			<InputText v-model="v.password.$model" placeholder="Password" />
 			<InlineMessage v-for="error in v.password.$errors" :key="error.$uid">{{
 				error.$message
@@ -81,24 +83,23 @@ const handleSignUp = async () => {
 		</div>
 
 		<div class="p-inputgroup flex-1">
-			<span class="p-inputgroup-addon">
-				<i class="pi pi-at"></i>
-			</span>
-			<InputText v-model="passwordConfirm" placeholder="password Confirm" />
+			<InputText
+				v-model="v.passwordConfirm.$model"
+				placeholder="Password Confirm"
+			/>
+			<InlineMessage
+				v-for="error in v.passwordConfirm.$errors"
+				:key="error.$uid"
+				>{{ error.$message }}</InlineMessage
+			>
 		</div>
 
 		<div class="p-inputgroup flex-1">
-			<span class="p-inputgroup-addon">
-				<i class="pi pi-chevron-right"></i>
-			</span>
-			<InputText v-model="firstName" placeholder="first Name" />
+			<InputText v-model="firstName" placeholder="First Name" />
 		</div>
 
 		<div class="p-inputgroup flex-1">
-			<span class="p-inputgroup-addon">
-				<i class="pi pi-chevron-right"></i>
-			</span>
-			<InputText v-model="lastName" placeholder="last Name" />
+			<InputText v-model="lastName" placeholder="Last Name" />
 		</div>
 
 		<Loader v-if="authStore.loader" />
