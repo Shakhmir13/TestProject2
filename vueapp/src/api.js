@@ -1,5 +1,4 @@
 // api.js
-
 import config from '@/config.js'
 import { useAuthStore } from '@/stores/auth.js'
 import axios from 'axios'

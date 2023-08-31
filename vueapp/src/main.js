@@ -2,7 +2,6 @@ import '@/styles/global.scss'
 
 import { createPinia } from 'pinia'
 
-import '@/api.js'
 import PrimeVue from 'primevue/config'
 import { createApp } from 'vue'
 

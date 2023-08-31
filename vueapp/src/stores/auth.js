@@ -1,11 +1,6 @@
-import config from '@/config.js'
-import axios from 'axios'
+import HTTP from '@/api.js' // Импортируйте экземпляр Axios из api.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-
-export const HTTP = axios.create({
-	baseURL: config.BASEURL,
-})
 
 export const useAuthStore = defineStore('auth', () => {
 	const userInfo = ref({
@@ -48,6 +43,15 @@ export const useAuthStore = defineStore('auth', () => {
 				username: response.data.username,
 				refreshToken: response.data.refreshToken,
 			}
+
+			localStorage.setItem(
+				'userTokens',
+				JSON.stringify({
+					token: userInfo.value.token,
+					refreshToken: userInfo.value.refreshToken,
+				})
+			)
+
 			console.log('Из auth.js файла:', response.data)
 		} catch (err) {
 			switch (err.response.data.errors[0]) {
