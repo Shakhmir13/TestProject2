@@ -19,14 +19,14 @@ namespace TestProject2.Models.Identity
 
         [Required]
         [DataType(DataType.Password)]
-        [MinLength(8, ErrorMessage = "Пароль должен содержать не менее 8 символов")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+",
-        ErrorMessage = "Пароль должен содержать хотя бы 1 заглавную букву, 1 специальный символ и 1 цифру")]
+        //[MinLength(8, ErrorMessage = "Пароль должен содержать не менее 8 символов")]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+",
+        //ErrorMessage = "Пароль должен содержать хотя бы 1 заглавную букву, 1 специальный символ и 1 цифру")]
         [Display(Name = "Пароль")]
         public string Password { get; set; } = null!;
 
         [Required]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+        //[Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
         [Display(Name = "Подтвердить пароль")]
         public string PasswordConfirm { get; set; } = null!;

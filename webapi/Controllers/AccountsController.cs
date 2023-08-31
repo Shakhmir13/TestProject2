@@ -102,23 +102,65 @@ namespace TestProject2.Controllers
         [ProducesResponseType(typeof(string), 400)]
         public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
         {
-            if (!ModelState.IsValid)
+            if (request.Password == null)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
                 var errorResponse = new ErrorResponse
                 {
-                    Message = "Ошибка регистрации пользователя",
-                    Errors = errors
+                    Message = "Ошибка регистрации",
+                    Errors = new List<string> { "Пароль не может быть пустым" }
                 };
 
                 return BadRequest(errorResponse);
             }
+            if (request.Password!=request.PasswordConfirm)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "Ошибка регистрации",
+                    Errors = new List<string> { "Пароли не совпадают" }
+                };
+
+                return BadRequest(errorResponse);
+            }
+            if (request.Password.Length < 8)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "Ошибка регистрации",
+                    Errors = new List<string> { "Пароль должен содержать минимум 8 символов" }
+                };
+
+                return BadRequest(errorResponse);
+            }
+            string specialCharacters = "!@#$%^&*()_+{}[]|\\:;\"'<>,.?/-="; // Специальные символы
+
+            bool containsSpecialCharacter = false;
+
+            foreach (char c in request.Password)
+            {
+                if (specialCharacters.Contains(c))
+                {
+                    containsSpecialCharacter = true;
+                    break;
+                }
+            }
+            if (!containsSpecialCharacter)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = "Ошибка регистрации",
+                    Errors = new List<string> { "Пароль должен содержать минимум 1 специальный символ" }
+                };
+
+                return BadRequest(errorResponse);
+            }
+
             var existuser = _context.Users.FirstOrDefault(u => u.Email == request.Email);
             if (existuser != null) 
             {
                 var errorResponse = new ErrorResponse
                 {
-                    Message = "Ошибка аутентификации",
+                    Message = "Ошибка регистрации",
                     Errors = new List<string> { "Пользователь с таким email уже существует" }
                 };
 
