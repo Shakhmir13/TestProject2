@@ -7,6 +7,7 @@ import Button from 'primevue/button'
 import Calendar from 'primevue/calendar'
 import InlineMessage from 'primevue/inlinemessage'
 import InputText from 'primevue/inputtext'
+import Message from 'primevue/message'
 
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -37,7 +38,6 @@ const rules = computed(() => ({
 }))
 
 const v = useVuelidate(rules, { password, userEmail, passwordConfirm })
-console.log(v)
 
 const router = useRouter()
 
@@ -60,6 +60,9 @@ const handleSignUp = async () => {
 <template>
 	<h2>Sign up</h2>
 	<form class="flex flex-column gap-3">
+		<Message severity="warn" v-if="authStore.error">{{
+			authStore.error
+		}}</Message>
 		<div class="p-inputgroup flex-1">
 			<InputText v-model="v.userEmail.$model" placeholder="Your email" />
 			<InlineMessage v-for="error in v.userEmail.$errors" :key="error.$uid">

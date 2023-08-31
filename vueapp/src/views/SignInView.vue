@@ -2,6 +2,7 @@
 import Loader from '@/components/Loader.vue'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import Message from 'primevue/message'
 
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -29,6 +30,9 @@ const handleSignUp = async () => {
 <template>
 	<h2>Sign in</h2>
 	<form class="flex flex-column gap-3">
+		<Message severity="warn" v-if="authStore.error">{{
+			authStore.error
+		}}</Message>
 		<div class="p-inputgroup flex-1">
 			<InputText v-model="email" placeholder="Your email" />
 		</div>

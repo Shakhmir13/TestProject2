@@ -51,14 +51,37 @@ export const useAuthStore = defineStore('auth', () => {
 			console.log('Из auth.js файла:', response.data)
 		} catch (err) {
 			// TODO: доделать catch ошибок. Для этого жду от Шахи подтверждение
-			console.log(err.response.data.errors.PasswordConfirm[0])
-			switch (err.response.data.errors.PasswordConfirm[0]) {
+			switch (err.response.data.errors[0]) {
+				case 'Пароль не может быть пустым':
+					error.value = 'Пароль не может быть пустым'
+					break
+
 				case 'Пароли не совпадают':
 					error.value = 'Пароли не совпадают'
 					break
 
+				case 'Пароль должен содержать минимум 8 символов':
+					error.value = 'Пароль должен содержать минимум 8 символов'
+					break
+
+				case 'Пароль должен содержать минимум 1 специальный символ':
+					error.value = 'Пароль должен содержать минимум 1 специальный символ'
+					break
+
+				case 'Пользователь с таким email уже существует':
+					error.value = 'Пользователь с таким email уже существует'
+					break
+
+				case 'Неверный пароль':
+					error.value = 'Неверный пароль'
+					break
+
+				case 'Пользователь с таким email не существует':
+					error.value = 'Пользователь с таким email не существует'
+					break
+
 				default:
-					error.value = 'Какая-то ошибка'
+					error.value = 'Проверьте данные'
 					break
 			}
 

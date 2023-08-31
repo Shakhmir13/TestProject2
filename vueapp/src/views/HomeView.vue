@@ -5,10 +5,13 @@ import Card from 'primevue/card'
 
 import { useAuthStore } from '@/stores/auth.js'
 import { onMounted, ref } from 'vue'
+
 const authStore = useAuthStore()
 
 import config from '@/config.js'
+
 import axios from 'axios'
+
 const HTTP = axios.create({
 	baseURL: config.BASEURL,
 })
