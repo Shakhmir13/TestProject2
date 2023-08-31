@@ -1,26 +1,12 @@
 <script setup>
+import HTTP from '@/api.js' // Импортируйте экземпляр Axios из api.js
 import Loader from '@/components/Loader.vue'
+// import { useAuthStore } from '@/stores/auth.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
-
-import { useAuthStore } from '@/stores/auth.js'
 import { onMounted, ref } from 'vue'
 
-const authStore = useAuthStore()
-
-import config from '@/config.js'
-
-import axios from 'axios'
-
-const HTTP = axios.create({
-	baseURL: config.BASEURL,
-})
-
-HTTP.interceptors.request.use(config => {
-	const token = authStore.userInfo.token
-	config.headers.Authorization = `Bearer ${token}`
-	return config
-})
+// const authStore = useAuthStore()
 
 const weathers = ref()
 const showLoader = ref(false)

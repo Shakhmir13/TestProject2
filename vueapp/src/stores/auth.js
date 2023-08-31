@@ -50,7 +50,6 @@ export const useAuthStore = defineStore('auth', () => {
 			}
 			console.log('Из auth.js файла:', response.data)
 		} catch (err) {
-			// TODO: доделать catch ошибок. Для этого жду от Шахи подтверждение
 			switch (err.response.data.errors[0]) {
 				case 'Пароль не может быть пустым':
 					error.value = 'Пароль не может быть пустым'
