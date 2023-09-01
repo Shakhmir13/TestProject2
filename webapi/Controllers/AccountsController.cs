@@ -6,6 +6,7 @@ using TestProject2.Models.Identity;
 using TestProject2.Models;
 using TestProject2.Utility.Token;
 using TestProject2.DbContext;
+using TestProject2.Utility.EmailSender;
 
 namespace TestProject2.Controllers
 {
@@ -18,14 +19,16 @@ namespace TestProject2.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
+        private readonly IEmailSender _emailSender;
 
-        public AccountsController(ITokenService tokenService, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<long>> roleManager, IConfiguration configuration)
+        public AccountsController(ITokenService tokenService, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<long>> roleManager, IConfiguration configuration, IEmailSender emailSender)
         {
             _tokenService = tokenService;
             _context = context;
             _userManager = userManager;
             _configuration = configuration;
             _roleManager = roleManager;
+            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -82,7 +85,7 @@ namespace TestProject2.Controllers
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
 
             await _context.SaveChangesAsync();
-
+            //await _emailSender.SendEmailAsync(request.Email, "Токен", accessToken);
             return Ok(new AuthResponse
             {
                 Username = user.UserName!,
@@ -256,7 +259,7 @@ namespace TestProject2.Controllers
             var username = principal.Identity!.Name;
             var user = await _userManager.FindByNameAsync(username!);
 
-            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            if (user == null || user.RefreshToken != refreshToken)
             {
                 return BadRequest("Invalid access token or refresh token");
             }
@@ -265,6 +268,7 @@ namespace TestProject2.Controllers
             var newRefreshToken = _configuration.GenerateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
             await _userManager.UpdateAsync(user);
 
             return new ObjectResult(new
@@ -272,6 +276,28 @@ namespace TestProject2.Controllers
                 accessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
                 refreshToken = newRefreshToken
             });
+        }
+
+        [HttpPost]
+        [Route("request-reset")]
+        public async Task<IActionResult> RequestPasswordReset([FromBody] EmailModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid request data.");
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var code = _tokenService.GenerateRandomCode().ToString();
+
+            await _emailSender.SendEmailAsync(user.Email, "Код восстановления пароля", code);
+
+            return Ok("Password reset link sent successfully.");
         }
 
     }
