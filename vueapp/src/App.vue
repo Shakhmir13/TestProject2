@@ -15,7 +15,7 @@ const checkUser = () => {
 		authStore.userInfo.token = tokens.token
 		authStore.userInfo.refreshToken = tokens.refreshToken
 	}
-	// console.log(authStore.userInfo)
+	console.log('checkUser равен', authStore.userInfo)
 }
 
 const logout = () => {
