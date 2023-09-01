@@ -12,7 +12,7 @@ HTTP.interceptors.request.use(config => {
 	const token = authStore.userInfo.token
 	if (token) {
 		// TODO: убрать 'v' не забыть
-		config.headers.Authorization = `Bearer ${token + 'v'}`
+		config.headers.Authorization = `Bearer ${token}`
 	}
 	return config
 })
@@ -30,12 +30,25 @@ HTTP.interceptors.response.use(
 				const newTokens = await HTTP.post('accounts/refresh-token', {
 					refreshToken: JSON.parse(localStorage.getItem('userTokens'))
 						.refreshToken,
-					token: JSON.parse(localStorage.getItem('userTokens')).token,
+					accessToken: JSON.parse(localStorage.getItem('userTokens')).token,
 				})
 
-				console.log('newTokens data:', newTokens)
+				console.log('newTokens data:', newTokens.data)
+				authStore.userInfo.token = newTokens.data.accessToken
+				authStore.userInfo.refreshToken = newTokens.data.refreshToken
+				localStorage.setItem(
+					'userTokens',
+					JSON.stringify({
+						token: newTokens.data.accessToken,
+						refreshToken: newTokens.data.refreshToken,
+					})
+				)
 			} catch (err) {
 				console.log('ЭТО ошибка в newTokens', err)
+				localStorage.removeItem('userTokens')
+				router.push('/signin')
+				authStore.userInfo.token = ''
+				authStore.userInfo.refreshToken = ''
 			}
 		}
 	}

@@ -1,7 +1,10 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+
 const authStore = useAuthStore()
+const router = useRouter()
 
 const token = computed(() => authStore.userInfo.token)
 
@@ -12,7 +15,13 @@ const checkUser = () => {
 		authStore.userInfo.token = tokens.token
 		authStore.userInfo.refreshToken = tokens.refreshToken
 	}
-	console.log(authStore.userInfo)
+	// console.log(authStore.userInfo)
+}
+
+const logout = () => {
+	authStore.logout()
+	localStorage.removeItem('userTokens')
+	router.push('/signin')
 }
 
 checkUser()
@@ -26,6 +35,13 @@ checkUser()
 		>
 		<router-link class="menu__link" to="/signin" v-if="!token"
 			>Signin</router-link
+		>
+		<router-link
+			class="menu__link"
+			to="/signin"
+			v-if="token"
+			@click.prevent="logout"
+			>Logout</router-link
 		>
 	</div>
 	<div class="container">
