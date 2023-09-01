@@ -268,6 +268,7 @@ namespace TestProject2.Controllers
             var newRefreshToken = _configuration.GenerateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
             await _userManager.UpdateAsync(user);
 
             return new ObjectResult(new
