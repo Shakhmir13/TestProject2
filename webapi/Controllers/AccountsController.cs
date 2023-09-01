@@ -6,6 +6,7 @@ using TestProject2.Models.Identity;
 using TestProject2.Models;
 using TestProject2.Utility.Token;
 using TestProject2.DbContext;
+using TestProject2.Utility.EmailSender;
 
 namespace TestProject2.Controllers
 {
@@ -18,14 +19,16 @@ namespace TestProject2.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
+        private readonly EmailSender _emailSender;
 
-        public AccountsController(ITokenService tokenService, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<long>> roleManager, IConfiguration configuration)
+        public AccountsController(ITokenService tokenService, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<long>> roleManager, IConfiguration configuration, EmailSender emailSender)
         {
             _tokenService = tokenService;
             _context = context;
             _userManager = userManager;
             _configuration = configuration;
             _roleManager = roleManager;
+            _emailSender = emailSender;
         }
 
         /// <summary>

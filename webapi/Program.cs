@@ -9,6 +9,7 @@ using TestProject2.DbContext;
 using TestProject2.DbContext.Repository;
 using TestProject2.DbContext.Repository.Interfaces;
 using TestProject2.Models;
+using TestProject2.Utility.EmailSender;
 using TestProject2.Utility.Token;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -83,6 +84,7 @@ builder.Services.ConfigureApplicationCookie(option =>
     option.LoginPath = $"/Identity/Account/Login";
     option.LogoutPath = $"/Identity/Account/Logout";
 });
+builder.Services.AddScoped<EmailSender>();
 
 var app = builder.Build();
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
