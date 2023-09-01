@@ -259,7 +259,7 @@ namespace TestProject2.Controllers
             var username = principal.Identity!.Name;
             var user = await _userManager.FindByNameAsync(username!);
 
-            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            if (user == null || user.RefreshToken != refreshToken)
             {
                 return BadRequest("Invalid access token or refresh token");
             }
