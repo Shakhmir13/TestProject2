@@ -11,5 +11,6 @@ namespace TestProject2.Utility.Token
     public interface ITokenService
     {
         string CreateToken(ApplicationUser user, List<IdentityRole<long>> role);
+        int GenerateRandomCode();
     }
 }

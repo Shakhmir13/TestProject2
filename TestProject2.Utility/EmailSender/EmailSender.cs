@@ -9,30 +9,40 @@ using Microsoft.Extensions.Configuration;
 
 namespace TestProject2.Utility.EmailSender
 {
-    public class EmailSender
+    public class EmailSender : IEmailSender
     {
-        private readonly string _smtpHost = "smtp-pulse.com";
-        private readonly int _smtpPort = 2525; // порт SMTP сервера
-        private readonly string _smtpUsername = "sh.paltushev@alatau-clinic.kz";
-        private readonly string _smtpPassword = "sXHMnbgF5ZTqXe";
+        private readonly IConfiguration _configuration;
 
-        public async Task SendEmailAsync(string to, string subject, string message)
+        public EmailSender(IConfiguration configuration)
         {
-            using (var client = new SmtpClient(_smtpHost, _smtpPort))
+            _configuration = configuration;
+        }
+
+        public async Task SendEmailAsync(string toEmail, string subject, string message)
+        {
+            var smtpServer = _configuration["SmtpSettings:Server"];
+            var smtpPort = int.Parse(_configuration["SmtpSettings:Port"]);
+            var smtpUsername = _configuration["SmtpSettings:Username"];
+            var smtpPassword = _configuration["SmtpSettings:Password"];
+            var smtpClient = new SmtpClient(smtpServer)
             {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_smtpUsername, _smtpPassword);
-                client.EnableSsl = true;
+                Port = smtpPort,
+                Credentials = new NetworkCredential(smtpUsername, smtpPassword),
+                EnableSsl = true
+            };
 
-                var mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress(_smtpUsername);
-                mailMessage.To.Add(to);
-                mailMessage.Subject = subject;
-                mailMessage.Body = message;
-                mailMessage.IsBodyHtml = true;
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(smtpUsername),
+                Subject = subject,
+                Body = message,
+                IsBodyHtml = true
+            };
 
-                await client.SendMailAsync(mailMessage);
-            }
+            mailMessage.To.Add(toEmail);
+
+            await smtpClient.SendMailAsync(mailMessage);
         }
     }
 }
+

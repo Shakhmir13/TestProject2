@@ -19,9 +19,9 @@ namespace TestProject2.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
-        private readonly EmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
 
-        public AccountsController(ITokenService tokenService, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<long>> roleManager, IConfiguration configuration, EmailSender emailSender)
+        public AccountsController(ITokenService tokenService, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<long>> roleManager, IConfiguration configuration, IEmailSender emailSender)
         {
             _tokenService = tokenService;
             _context = context;
@@ -85,7 +85,7 @@ namespace TestProject2.Controllers
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
 
             await _context.SaveChangesAsync();
-
+            //await _emailSender.SendEmailAsync(request.Email, "Токен", accessToken);
             return Ok(new AuthResponse
             {
                 Username = user.UserName!,
@@ -275,6 +275,28 @@ namespace TestProject2.Controllers
                 accessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
                 refreshToken = newRefreshToken
             });
+        }
+
+        [HttpPost]
+        [Route("request-reset")]
+        public async Task<IActionResult> RequestPasswordReset([FromBody] EmailModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid request data.");
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var code = _tokenService.GenerateRandomCode().ToString();
+
+            await _emailSender.SendEmailAsync(user.Email, "Код восстановления пароля", code);
+
+            return Ok("Password reset link sent successfully.");
         }
 
     }
