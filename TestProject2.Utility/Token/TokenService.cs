@@ -20,11 +20,6 @@ namespace TestProject2.Utility.Token
         {
             _configuration = configuration;
         }
-        public int GenerateRandomCode()
-        {
-            var random = new Random();
-            return random.Next(10000, 99999);
-        }
         public string CreateToken(ApplicationUser user, List<IdentityRole<long>> roles)
         {
             var token = user

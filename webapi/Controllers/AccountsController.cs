@@ -7,6 +7,8 @@ using TestProject2.Models;
 using TestProject2.Utility.Token;
 using TestProject2.DbContext;
 using TestProject2.Utility.EmailSender;
+using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace TestProject2.Controllers
 {
@@ -292,13 +294,31 @@ namespace TestProject2.Controllers
             {
                 return NotFound("User not found.");
             }
-
-            var code = _tokenService.GenerateRandomCode().ToString();
-
-            await _emailSender.SendEmailAsync(user.Email, "Код восстановления пароля", code);
-
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedcode = Encoding.UTF8.GetBytes(code);
+            var validcode = WebEncoders.Base64UrlEncode(encodedcode);
+            string url = $"{_configuration["AppUrl"]}/ResetPassword?Email={model.Email}&ValidCode={validcode}";
+            await _emailSender.SendEmailAsync(user.Email, "Восстановление пароля", $"<p>Для сброса пароля перейдите по ссылке <a href='{url}'>Click here</a></p>");
             return Ok("Password reset link sent successfully.");
         }
 
+        [HttpPost]
+        [Route("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromForm]ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                var decodedcode = WebEncoders.Base64UrlDecode(model.ValidCode);
+                string normalcode = Encoding.UTF8.GetString(decodedcode);
+                var result = await _userManager.ResetPasswordAsync(user, normalcode, model.Password);
+
+                if (result.Succeeded)
+                    return Ok(result);
+
+                return BadRequest(result);
+            }
+            return BadRequest("Some properties are not valid");
+        }
     }
 }
