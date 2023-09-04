@@ -7,11 +7,11 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "vueapp", "vueapp\vueapp.esp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapi", "webapi\webapi.csproj", "{E1F1A3E2-34AA-4BC2-8B47-E28A7A909886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject2.Models", "TestProject2.Models\TestProject2.Models.csproj", "{5609DD27-6D9B-43AB-91E4-77EC2EEEADDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject2.Models", "TestProject2.Models\TestProject2.Models.csproj", "{5609DD27-6D9B-43AB-91E4-77EC2EEEADDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject2.DbContext", "TestProject2.DbContext\TestProject2.DbContext.csproj", "{FDCE8C99-109C-4A0E-8693-4EFF8518B6AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject2.DbContext", "TestProject2.DbContext\TestProject2.DbContext.csproj", "{FDCE8C99-109C-4A0E-8693-4EFF8518B6AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject2.Utility", "TestProject2.Utility\TestProject2.Utility.csproj", "{4DADFA0A-AC2F-4F15-9F77-0287D796327D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject2.Utility", "TestProject2.Utility\TestProject2.Utility.csproj", "{4DADFA0A-AC2F-4F15-9F77-0287D796327D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

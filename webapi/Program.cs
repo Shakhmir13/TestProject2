@@ -74,7 +74,7 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddUserManager<UserManager<ApplicationUser>>()
+    .AddUserManager<UserManager<ApplicationUser>>().AddDefaultTokenProviders()
     .AddSignInManager<SignInManager<ApplicationUser>>();
 
 builder.Services.AddScoped<IActionUnit, ActionUnit>();
