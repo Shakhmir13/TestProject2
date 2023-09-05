@@ -22,13 +22,17 @@ const resetPassword = async () => {
 	}
 
 	await authStore.resetPassword(userData)
+
+	// router.push('/signin')
 }
 </script>
 
 <template>
 	<h2>We will send reset password link to your email</h2>
 	<form class="flex flex-column gap-3">
-		<Message severity="success"></Message>
+		<Message severity="success" v-if="authStore.success">{{
+			authStore.success
+		}}</Message>
 		<div class="p-inputgroup flex-1">
 			<InputText v-model="email" placeholder="Your email" />
 		</div>

@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth', () => {
 		refreshToken: '',
 	})
 	const error = ref('')
+	const success = ref('')
 	const loader = ref(false)
 
 	const auth = async userData => {
@@ -91,14 +92,21 @@ export const useAuthStore = defineStore('auth', () => {
 	}
 
 	const resetPassword = async userData => {
+		success.value = ''
+		loader.value = true
 		try {
 			const response = await HTTP.post('accounts/request-reset', {
 				email: userData.email,
 			})
 			console.log(response.data)
-			// successMessage.value = response.data
+			// success.value = response.data
+			if (response.data) {
+				success.value = 'Check your email'
+			}
 		} catch (err) {
 			console.log(err.response)
+		} finally {
+			loader.value = false
 		}
 	}
 
@@ -114,6 +122,7 @@ export const useAuthStore = defineStore('auth', () => {
 		auth,
 		userInfo,
 		error,
+		success,
 		loader,
 		logout,
 		resetPassword,

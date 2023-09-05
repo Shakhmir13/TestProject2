@@ -57,11 +57,11 @@ checkUser()
 	font-size: 20px;
 }
 .menu__link {
-	color: black;
+	color: red;
 	margin: 0 20px;
 }
-.container {
-	max-width: 700px;
-	margin: auto;
-}
+// .container {
+// 	max-width: 700px;
+// 	margin: auto;
+// }
 </style>
