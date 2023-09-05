@@ -109,7 +109,7 @@ const handleSignUp = async () => {
 		<div v-else class="flex flex-column gap-3">
 			<Button label="Sign up" @click="handleSignUp" />
 			<span
-				>Bro, are you already registered?
+				>Are you already registered?
 				<router-link to="/signin">Sign in</router-link>
 			</span>
 		</div>

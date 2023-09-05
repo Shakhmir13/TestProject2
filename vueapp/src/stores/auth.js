@@ -9,14 +9,12 @@ export const useAuthStore = defineStore('auth', () => {
 		username: '',
 		refreshToken: '',
 	})
-
 	const error = ref('')
 	const loader = ref(false)
 
 	const auth = async userData => {
 		error.value = ''
 		loader.value = true
-
 		try {
 			let response
 
@@ -36,7 +34,6 @@ export const useAuthStore = defineStore('auth', () => {
 					password: userData.password,
 				})
 			}
-
 			userInfo.value = {
 				token: response.data.token,
 				email: response.data.email,
@@ -51,8 +48,7 @@ export const useAuthStore = defineStore('auth', () => {
 					refreshToken: userInfo.value.refreshToken,
 				})
 			)
-
-			console.log('ДАННЫЕ при входе:', response.data)
+			// console.log('Дата Входа', response.data)
 		} catch (err) {
 			switch (err.response.data.errors[0]) {
 				case 'Пароль не может быть пустым':
@@ -94,6 +90,18 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 	}
 
+	const resetPassword = async userData => {
+		try {
+			const response = await HTTP.post('accounts/request-reset', {
+				email: userData.email,
+			})
+			console.log(response.data)
+			// successMessage.value = response.data
+		} catch (err) {
+			console.log(err.response)
+		}
+	}
+
 	const logout = () => {
 		userInfo.value = {
 			token: '',
@@ -102,6 +110,12 @@ export const useAuthStore = defineStore('auth', () => {
 			refreshToken: '',
 		}
 	}
-
-	return { auth, userInfo, error, loader, logout }
+	return {
+		auth,
+		userInfo,
+		error,
+		loader,
+		logout,
+		resetPassword,
+	}
 })

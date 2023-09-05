@@ -11,47 +11,30 @@ import { useAuthStore } from '@/stores/auth.js'
 const authStore = useAuthStore()
 
 const email = ref('')
-const password = ref('')
+// const successMessage = computed(() => authStore.userInfo.token)
 
 const router = useRouter()
 
-const handleSignUp = async () => {
+const resetPassword = async () => {
 	const userData = {
 		registration: false, // Указываем, что это операция входа
 		email: email.value,
-		password: password.value,
 	}
 
-	await authStore.auth(userData)
-	router.push('/')
+	await authStore.resetPassword(userData)
 }
 </script>
 
 <template>
-	<h2>Sign in</h2>
+	<h2>We will send reset password link to your email</h2>
 	<form class="flex flex-column gap-3">
-		<Message severity="warn" v-if="authStore.error">{{
-			authStore.error
-		}}</Message>
+		<Message severity="success"></Message>
 		<div class="p-inputgroup flex-1">
 			<InputText v-model="email" placeholder="Your email" />
 		</div>
-
-		<div class="p-inputgroup flex-1">
-			<InputText v-model="password" placeholder="Password" />
-		</div>
-
 		<Loader v-if="authStore.loader" />
 		<div v-else class="flex flex-column gap-3">
-			<Button label="Sign in" @click="handleSignUp" />
-			<span
-				>Are you not registered yet?
-				<router-link to="/signup">Sign up</router-link>
-			</span>
-			<span
-				>Forget password?
-				<router-link to="/forgot-password">Reset Password</router-link>
-			</span>
+			<Button label="Reset Password" @click="resetPassword" />
 		</div>
 	</form>
 </template>

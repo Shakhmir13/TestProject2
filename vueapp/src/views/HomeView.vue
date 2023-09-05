@@ -13,15 +13,18 @@ const getWeather = async () => {
 	try {
 		const response = await HTTP.get('WeatherForecast/')
 		weathers.value = response.data
-	} catch (error) {
-		// console.log(error.response)
+		console.log('Дата Погоды', response.data)
+	} catch (err) {
+		console.log('ОШИБКА Погоды', err.response)
 	} finally {
 		showLoader.value = false
 	}
 }
 
 onMounted(async () => {
+	// console.log('6')
 	await getWeather()
+	// console.log('7')
 })
 </script>
 

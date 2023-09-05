@@ -15,7 +15,7 @@ const checkUser = () => {
 		authStore.userInfo.token = tokens.token
 		authStore.userInfo.refreshToken = tokens.refreshToken
 	}
-	console.log('checkUser равен', authStore.userInfo)
+	// console.log('checkUser равен', authStore.userInfo)
 }
 
 const logout = () => {
@@ -30,11 +30,11 @@ checkUser()
 <template>
 	<div class="menu">
 		<router-link class="menu__link" to="/" v-if="token">Home</router-link>
-		<router-link class="menu__link" to="/signup" v-if="!token"
+		<router-link class="menu__link" to="/signin" v-if="!token"
 			>Login</router-link
 		>
-		<router-link class="menu__link" to="/signin" v-if="!token"
-			>Signin</router-link
+		<router-link class="menu__link" to="/signup" v-if="!token"
+			>Signup</router-link
 		>
 		<router-link
 			class="menu__link"
