@@ -48,7 +48,7 @@ namespace TestProject2.Controllers
                 return BadRequest(ModelState);
             }
 
-            var managedUser = await _userManager.FindByEmailAsync(request.Email);
+            var managedUser = await _userManager.FindByEmailAsync(request.Email.ToLower());
 
             if (managedUser == null)
             {
@@ -74,7 +74,7 @@ namespace TestProject2.Controllers
                 return BadRequest(errorResponse);
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == request.Email.ToLower());
 
             if (user is null)
                 return Unauthorized();
@@ -175,8 +175,8 @@ namespace TestProject2.Controllers
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Email = request.Email,
-                UserName = request.Email
+                Email = request.Email.ToLower(),
+                UserName = request.Email.ToLower()
             };
             var result = await _userManager.CreateAsync(user, request.Password);
 
@@ -187,7 +187,7 @@ namespace TestProject2.Controllers
 
             if (!result.Succeeded) return BadRequest(request);
 
-            var findUser = _context.Users.FirstOrDefault(x => x.Email == request.Email);
+            var findUser = _context.Users.FirstOrDefault(x => x.Email == request.Email.ToLower());
 
             if (findUser == null) throw new Exception($"User {request.Email} not found");
             if (!await _roleManager.RoleExistsAsync(RoleConsts.Member))
