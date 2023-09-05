@@ -8,4 +8,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-createApp(App).use(createPinia()).use(router).use(PrimeVue).mount('#app')
+// TODO: почитать для чего { ripple: true }
+createApp(App)
+	.use(createPinia())
+	.use(router)
+	.use(PrimeVue, { ripple: true })
+	.mount('#app')

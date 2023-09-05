@@ -50,16 +50,16 @@ checkUser()
 </template>
 
 <style lang="scss" scoped>
-.menu {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 20px;
-	font-size: 20px;
-}
-.menu__link {
-	color: red;
-	margin: 0 20px;
-}
+// .menu {
+// 	display: flex;
+// 	justify-content: center;
+// 	margin-bottom: 20px;
+// 	font-size: 20px;
+// }
+// .menu__link {
+// 	color: red;
+// 	margin: 0 20px;
+// }
 // .container {
 // 	max-width: 700px;
 // 	margin: auto;
