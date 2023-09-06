@@ -277,7 +277,7 @@ namespace TestProject2.Controllers
         }
 
         /// <summary>
-        /// Обновление токена доступа с помощью токена обновления.
+        /// Обновление пароля пользователя.
         /// </summary>
         /// <param name="ResetPasswordModel">Модель восстановления пароля.</param>
         /// <returns>Модель пользователя.</returns>
