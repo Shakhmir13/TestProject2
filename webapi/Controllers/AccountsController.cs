@@ -289,7 +289,7 @@ namespace TestProject2.Controllers
                 return BadRequest("Invalid request data.");
             }
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email.ToLower());
             if (user == null)
             {
                 return NotFound("User not found.");
@@ -297,7 +297,7 @@ namespace TestProject2.Controllers
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var encodedcode = Encoding.UTF8.GetBytes(code);
             var validcode = WebEncoders.Base64UrlEncode(encodedcode);
-            string url = $"{_configuration["AppUrl"]}/ResetPassword?Email={model.Email}&ValidCode={validcode}";
+            string url = $"{_configuration["AppUrl"]}/reset?Email={model.Email}&ValidCode={validcode}";
             await _emailSender.SendEmailAsync(user.Email, "Восстановление пароля", $"<p>Для сброса пароля перейдите по ссылке <a href='{url}'>Click here</a></p>");
             return Ok("Password reset link sent successfully.");
         }
@@ -308,7 +308,7 @@ namespace TestProject2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email.ToLower());
                 var decodedcode = WebEncoders.Base64UrlDecode(model.ValidCode);
                 string normalcode = Encoding.UTF8.GetString(decodedcode);
                 var result = await _userManager.ResetPasswordAsync(user, normalcode, model.Password);
