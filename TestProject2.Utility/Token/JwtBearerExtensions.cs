@@ -42,7 +42,7 @@ namespace TestProject2.Utility.Token
 
         public static JwtSecurityToken CreateJwtToken(this IEnumerable<Claim> claims, IConfiguration configuration)
         {
-            var expire = configuration.GetSection("Jwt:Expire").Get<int>();
+            var expire = configuration.GetSection("Jwt:TokenValidityInMinutes").Get<int>();
 
             return new JwtSecurityToken(
                 configuration["Jwt:Issuer"],

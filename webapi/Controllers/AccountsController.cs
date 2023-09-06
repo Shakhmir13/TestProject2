@@ -47,9 +47,7 @@ namespace TestProject2.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             var managedUser = await _userManager.FindByEmailAsync(request.Email.ToLower());
-
             if (managedUser == null)
             {
                 var errorResponse = new ErrorResponse
@@ -60,9 +58,7 @@ namespace TestProject2.Controllers
 
                 return BadRequest(errorResponse);
             }
-
             var isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, request.Password);
-
             if (!isPasswordValid)
             {
                 var errorResponse = new ErrorResponse
@@ -73,19 +69,14 @@ namespace TestProject2.Controllers
 
                 return BadRequest(errorResponse);
             }
-
             var user = _context.Users.FirstOrDefault(u => u.Email == request.Email.ToLower());
-
             if (user is null)
                 return Unauthorized();
-
             var roleIds = _context.UserRoles.Where(r => r.UserId == user.Id).Select(x => x.RoleId).ToList();
             var roles = _context.Roles.Where(x => roleIds.Contains(x.Id)).ToList();
-
             var accessToken = _tokenService.CreateToken(user, roles);
             user.RefreshToken = _configuration.GenerateRefreshToken();
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
-
             await _context.SaveChangesAsync();
             //await _emailSender.SendEmailAsync(request.Email, "Токен", accessToken);
             return Ok(new AuthResponse
@@ -138,9 +129,7 @@ namespace TestProject2.Controllers
                 return BadRequest(errorResponse);
             }
             string specialCharacters = "!@#$%^&*()_+{}[]|\\:;\"'<>,.?/-="; // Специальные символы
-
             bool containsSpecialCharacter = false;
-
             foreach (char c in request.Password)
             {
                 if (specialCharacters.Contains(c))
@@ -159,7 +148,6 @@ namespace TestProject2.Controllers
 
                 return BadRequest(errorResponse);
             }
-
             var existuser = _context.Users.FirstOrDefault(u => u.Email == request.Email);
             if (existuser != null) 
             {
@@ -179,53 +167,41 @@ namespace TestProject2.Controllers
                 UserName = request.Email.ToLower()
             };
             var result = await _userManager.CreateAsync(user, request.Password);
-
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-
             if (!result.Succeeded) return BadRequest(request);
-
             var findUser = _context.Users.FirstOrDefault(x => x.Email == request.Email.ToLower());
-
             if (findUser == null) throw new Exception($"User {request.Email} not found");
             if (!await _roleManager.RoleExistsAsync(RoleConsts.Member))
             {
-                // Создание роли, если она не существует
                 var role = new IdentityRole<long>(RoleConsts.Member);
                 var createRoleResult = await _roleManager.CreateAsync(role);
                 if (!createRoleResult.Succeeded)
                 {
-                    // Обработка ошибки создания роли, если необходимо
                     return BadRequest(createRoleResult.Errors);
                 }
             }
             if (!await _roleManager.RoleExistsAsync(RoleConsts.Moderator))
             {
-                // Создание роли, если она не существует
                 var role = new IdentityRole<long>(RoleConsts.Moderator);
                 var createRoleResult = await _roleManager.CreateAsync(role);
                 if (!createRoleResult.Succeeded)
                 {
-                    // Обработка ошибки создания роли, если необходимо
                     return BadRequest(createRoleResult.Errors);
                 }
             }
             if (!await _roleManager.RoleExistsAsync(RoleConsts.Administrator))
             {
-                // Создание роли, если она не существует
                 var role = new IdentityRole<long>(RoleConsts.Administrator);
                 var createRoleResult = await _roleManager.CreateAsync(role);
                 if (!createRoleResult.Succeeded)
                 {
-                    // Обработка ошибки создания роли, если необходимо
                     return BadRequest(createRoleResult.Errors);
                 }
             }
-
             await _userManager.AddToRoleAsync(findUser, RoleConsts.Member);
-
             return await Authenticate(new AuthRequest
             {
                 Email = request.Email,
@@ -248,31 +224,24 @@ namespace TestProject2.Controllers
             {
                 return BadRequest("Invalid client request");
             }
-
             var accessToken = tokenModel.AccessToken;
             var refreshToken = tokenModel.RefreshToken;
             var principal = _configuration.GetPrincipalFromExpiredToken(accessToken);
-
             if (principal == null)
             {
                 return BadRequest("Invalid access token or refresh token");
             }
-
             var username = principal.Identity!.Name;
             var user = await _userManager.FindByNameAsync(username!);
-
             if (user == null || user.RefreshToken != refreshToken)
             {
                 return BadRequest("Invalid access token or refresh token");
             }
-
             var newAccessToken = _configuration.CreateToken(principal.Claims.ToList());
             var newRefreshToken = _configuration.GenerateRefreshToken();
-
             user.RefreshToken = newRefreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
             await _userManager.UpdateAsync(user);
-
             return new ObjectResult(new
             {
                 accessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
@@ -280,6 +249,11 @@ namespace TestProject2.Controllers
             });
         }
 
+        /// <summary>
+        /// Запрос восстановления пароля.
+        /// </summary>
+        /// <param name="EmailModel">Email</param>
+        /// <returns>Отправляет письмо с сылкой восстановления пароля на указанную почту.</returns>
         [HttpPost]
         [Route("request-reset")]
         public async Task<IActionResult> RequestPasswordReset([FromBody] EmailModel model)
@@ -302,6 +276,11 @@ namespace TestProject2.Controllers
             return Ok("Password reset link sent successfully.");
         }
 
+        /// <summary>
+        /// Обновление токена доступа с помощью токена обновления.
+        /// </summary>
+        /// <param name="ResetPasswordModel">Модель восстановления пароля.</param>
+        /// <returns>Модель пользователя.</returns>
         [HttpPost]
         [Route("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromForm]ResetPasswordModel model)

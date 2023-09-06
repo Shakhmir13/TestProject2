@@ -71,20 +71,12 @@ builder.Services.AddSwaggerGen(option =>
 });
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("webapi")));
-
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddUserManager<UserManager<ApplicationUser>>().AddDefaultTokenProviders()
     .AddSignInManager<SignInManager<ApplicationUser>>();
-
 builder.Services.AddScoped<IActionUnit, ActionUnit>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.ConfigureApplicationCookie(option =>
-{
-    option.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-    option.LoginPath = $"/Identity/Account/Login";
-    option.LogoutPath = $"/Identity/Account/Logout";
-});
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
@@ -95,14 +87,12 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API Title v1");
     c.RoutePrefix = "swagger";
 });
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
