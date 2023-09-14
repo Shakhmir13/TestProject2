@@ -281,7 +281,7 @@ namespace TestProject2.Controllers
         /// </summary>
         /// <param name="ResetPasswordModel">Модель восстановления пароля.</param>
         /// <returns>Модель пользователя.</returns>
-        [HttpPost]
+        [HttpPut]
         [Route("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromQuery] string Email, [FromQuery] string ValidCode, [FromForm]ResetPasswordModel model)
         {
