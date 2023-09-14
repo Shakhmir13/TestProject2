@@ -283,12 +283,12 @@ namespace TestProject2.Controllers
         /// <returns>Модель пользователя.</returns>
         [HttpPut]
         [Route("ResetPassword")]
-        public async Task<IActionResult> ResetPassword([FromQuery] string Email, [FromQuery] string ValidCode, [FromForm]ResetPasswordModel model)
+        public async Task<IActionResult> ResetPassword([FromForm]ResetPasswordModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Email.ToLower());
-                var decodedcode = WebEncoders.Base64UrlDecode(ValidCode);
+                var user = await _userManager.FindByEmailAsync(model.Email.ToLower());
+                var decodedcode = WebEncoders.Base64UrlDecode(model.ValidCode);
                 string normalcode = Encoding.UTF8.GetString(decodedcode);
                 var result = await _userManager.ResetPasswordAsync(user, normalcode, model.Password);
 
