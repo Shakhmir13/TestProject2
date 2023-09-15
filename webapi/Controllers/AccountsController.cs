@@ -282,7 +282,7 @@ namespace TestProject2.Controllers
         /// <param name="ResetPasswordModel">Модель восстановления пароля.</param>
         /// <returns>Модель пользователя.</returns>
         [HttpPut]
-        [Route("ResetPassword")]
+        [Route("reset-password")]
         public async Task<IActionResult> ResetPassword([FromForm]ResetPasswordModel model)
         {
             if (ModelState.IsValid)
@@ -297,7 +297,7 @@ namespace TestProject2.Controllers
 
                 return BadRequest(result);
             }
-            return BadRequest("Some properties are not valid");
+            return BadRequest("Что-то пошло не так");
         }
     }
 }
