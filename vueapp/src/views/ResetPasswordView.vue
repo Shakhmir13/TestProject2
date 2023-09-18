@@ -14,14 +14,15 @@ const passwordConfirm = ref('')
 
 const router = useRouter()
 
-const resetPassword = async () => {
+const createNewPassword = async () => {
 	const userData = {
 		registration: false, // Указываем, что это операция входа
 		password: password.value,
 		passwordConfirm: passwordConfirm.value,
 	}
 
-	await authStore.resetPassword(userData)
+	await authStore.createNewPassword(userData)
+	console.log('Выполнена createNewPassword')
 }
 </script>
 
@@ -37,7 +38,7 @@ const resetPassword = async () => {
 
 		<Loader v-if="authStore.loader" />
 		<div v-else class="flex flex-column gap-3">
-			<Button label="Create New Password" @click="resetPassword" />
+			<Button label="Create New Password" @click="createNewPassword" />
 		</div>
 	</form>
 </template>

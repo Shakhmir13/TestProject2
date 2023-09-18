@@ -98,11 +98,27 @@ export const useAuthStore = defineStore('auth', () => {
 			const response = await HTTP.post('accounts/request-reset', {
 				email: userData.email,
 			})
-			console.log(response.data)
+			console.log('Получен resetPassword', response.data)
+
 			// success.value = response.data
 			if (response.data) {
 				success.value = 'Check your email'
 			}
+		} catch (err) {
+			console.log(err.response)
+		} finally {
+			loader.value = false
+		}
+	}
+
+	const createNewPassword = async userData => {
+		loader.value = true
+		try {
+			const response = await HTTP.put('accounts/reset-password', {
+				password: userData.password,
+				passwordConfirm: userData.passwordConfirm,
+			})
+			console.log(response.data)
 		} catch (err) {
 			console.log(err.response)
 		} finally {
@@ -126,5 +142,6 @@ export const useAuthStore = defineStore('auth', () => {
 		loader,
 		logout,
 		resetPassword,
+		createNewPassword,
 	}
 })
