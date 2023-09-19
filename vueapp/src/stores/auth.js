@@ -112,8 +112,8 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 	}
 
-	const createNewPassword = async userData => {
-		const route = useRoute()
+	const route = useRoute()
+	const createNewPassword = async (userData, route) => {
 		loader.value = true
 		const email = route.query.Email
 		const validCode = route.query.ValidCode
@@ -157,5 +157,8 @@ export const useAuthStore = defineStore('auth', () => {
 		logout,
 		resetPassword,
 		createNewPassword,
+		route,
 	}
 })
+
+// http://161.97.110.154:3000/reset?Email=nurik.berikbolov@gmail.com&ValidCode=Q2ZESjhETWgySlhEY0VSSnNHQnBDMzNRbXpDeXBPaHFnck5CaHBPQUxFL2MvektZMXVWNDc5QjJPdDJoUDBPMWdnK25tek1DUEVFb29EMjVnZTIxdDJuVUhBaXhqdGNaRGsrelMvdGRjdnh5VzB3TkNORmlERFJXenRYM0s5SjdVZ2RFS3FsRHlFWVZCd3RjWHlWK2E3SkNuWEhtY2JGWmprSmRjNjA0T1U3WEVLemVXa1VYMVd5YnZ6WkhrRjFLck5LZG13PT0
