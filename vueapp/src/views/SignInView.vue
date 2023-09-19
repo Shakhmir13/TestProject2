@@ -4,25 +4,22 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Message from 'primevue/message'
 
+import axios from 'axios'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { useAuthStore } from '@/stores/auth.js'
-const authStore = useAuthStore()
-
-const email = ref('')
-const password = ref('')
-
 const router = useRouter()
 
-const handleSignUp = async () => {
-	const userData = {
-		registration: false, // Указываем, что это операция входа
-		email: email.value,
-		password: password.value,
-	}
+const form = ref({
+	email: '',
+	password: '',
+})
 
-	await authStore.auth(userData)
+const handleLogin = async () => {
+	await axios.post('/accounts/login', {
+		email: form.value.email,
+		password: form.value.password,
+	})
 	router.push('/')
 }
 </script>
@@ -30,20 +27,22 @@ const handleSignUp = async () => {
 <template>
 	<h2>Sign in</h2>
 	<form class="flex flex-column gap-3">
-		<Message severity="warn" v-if="authStore.error">{{
-			authStore.error
-		}}</Message>
+		<Message severity="warn"></Message>
 		<div class="p-inputgroup flex-1">
-			<InputText v-model="email" placeholder="Your email" />
+			<InputText type="email" v-model="form.email" placeholder="Your email" />
 		</div>
 
 		<div class="p-inputgroup flex-1">
-			<InputText v-model="password" placeholder="Password" />
+			<InputText
+				type="password"
+				v-model="form.password"
+				placeholder="Password"
+			/>
 		</div>
 
-		<Loader v-if="authStore.loader" />
-		<div v-else class="flex flex-column gap-3">
-			<Button label="Sign in" @click="handleSignUp" />
+		<Loader />
+		<div class="flex flex-column gap-3">
+			<Button label="Sign in" @click="handleLogin" />
 			<span
 				>Are you not registered yet?
 				<router-link to="/signup">Sign up</router-link>
