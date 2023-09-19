@@ -1,6 +1,7 @@
 import HTTP from '@/api.js' // Импортируйте экземпляр Axios из api.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 export const useAuthStore = defineStore('auth', () => {
 	const userInfo = ref({
@@ -112,11 +113,24 @@ export const useAuthStore = defineStore('auth', () => {
 	}
 
 	const createNewPassword = async userData => {
+		const route = useRoute()
 		loader.value = true
 		try {
+			const email = route.query.Email
+			const validCode = route.query.ValidCode
+
+			// Проверка на наличие Email и ValidCode
+			if (!email || !validCode) {
+				console.log('Email и/или ValidCode отсутствуют в URL')
+				loader.value = false // Выход из функции и установка loader в false
+				return
+			}
+
 			const response = await HTTP.put('accounts/reset-password', {
 				password: userData.password,
 				passwordConfirm: userData.passwordConfirm,
+				email: email,
+				validCode: validCode,
 			})
 			console.log(response.data)
 		} catch (err) {
