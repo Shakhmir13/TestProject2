@@ -115,17 +115,17 @@ export const useAuthStore = defineStore('auth', () => {
 	const createNewPassword = async userData => {
 		const route = useRoute()
 		loader.value = true
+		const email = route.query.Email
+		const validCode = route.query.ValidCode
+
+		// Проверка на наличие Email и ValidCode
+		if (!email || !validCode) {
+			console.log('Email и/или ValidCode отсутствуют в URL')
+			loader.value = false // Выход из функции и установка loader в false
+			return
+		}
+
 		try {
-			const email = route.query.Email
-			const validCode = route.query.ValidCode
-
-			// Проверка на наличие Email и ValidCode
-			if (!email || !validCode) {
-				console.log('Email и/или ValidCode отсутствуют в URL')
-				loader.value = false // Выход из функции и установка loader в false
-				return
-			}
-
 			const response = await HTTP.put('accounts/reset-password', {
 				password: userData.password,
 				passwordConfirm: userData.passwordConfirm,
