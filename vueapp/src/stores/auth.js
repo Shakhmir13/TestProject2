@@ -1,7 +1,6 @@
 import HTTP from '@/api.js' // Импортируйте экземпляр Axios из api.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
 
 export const useAuthStore = defineStore('auth', () => {
 	const userInfo = ref({
@@ -113,7 +112,6 @@ export const useAuthStore = defineStore('auth', () => {
 	}
 
 	const createNewPassword = async (userData, route) => {
-		const route = useRoute()
 		loader.value = true
 		const email = route.query.Email
 		const validCode = route.query.ValidCode
