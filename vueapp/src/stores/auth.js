@@ -112,8 +112,8 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 	}
 
-	const route = useRoute()
 	const createNewPassword = async (userData, route) => {
+		const route = useRoute()
 		loader.value = true
 		const email = route.query.Email
 		const validCode = route.query.ValidCode
