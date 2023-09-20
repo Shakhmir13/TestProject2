@@ -18,6 +18,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddCors();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".MyApp.Session"; 
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddCookiePolicy(options => {
     options.MinimumSameSitePolicy = SameSiteMode.None;
     options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None;
@@ -88,6 +94,7 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 app.UseCors(builder => builder.WithOrigins("http://161.97.110.154:3000/", "http://localhost:5175/").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
 app.UseCookiePolicy();
+app.UseSession();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
