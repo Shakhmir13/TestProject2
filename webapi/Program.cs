@@ -93,7 +93,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
-app.UseCors(builder => builder.WithOrigins("http://161.97.110.154:3000", "http://localhost:*").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
+app.UseCors(builder => builder.WithOrigins("http://161.97.110.154:3000", "http://localhost", "http://localhost:5173", "http://localhost:5175", "http://localhost:5174").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
 app.UseCookiePolicy();
 app.UseSession();
 app.UseSwagger();
