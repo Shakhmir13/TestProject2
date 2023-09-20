@@ -4,14 +4,19 @@ import './axios'
 import { createPinia } from 'pinia'
 
 import PrimeVue from 'primevue/config'
-import { createApp } from 'vue'
+import { createApp, markRaw } from 'vue'
 
 import App from './App.vue'
 import router from './router'
 
-// TODO: почитать для чего { ripple: true }
+const pinia = createPinia()
+
+pinia.use(({ store }) => {
+	store.router = markRaw(router)
+})
+
 createApp(App)
-	.use(createPinia())
+	.use(pinia)
 	.use(router)
 	.use(PrimeVue, { ripple: true })
 	.mount('#app')

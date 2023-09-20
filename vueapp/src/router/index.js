@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import AppLayout from '@/layout/AppLayout.vue'
-import { useAuthStore } from '@/stores/auth.js'
+// import { useAuthStore } from '@/stores/auth.js'
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue'
 import HomeView from '@/views/HomeView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
@@ -17,7 +17,7 @@ const router = createRouter({
 			name: 'appLayout',
 			component: AppLayout,
 			meta: {
-				auth: true,
+				auth: false,
 			},
 			children: [
 				{
@@ -61,16 +61,16 @@ const router = createRouter({
 	],
 })
 
-router.beforeEach((to, from, next) => {
-	const authStore = useAuthStore()
+// router.beforeEach((to, from, next) => {
+// 	const authStore = useAuthStore()
 
-	if (to.meta.auth && !authStore.userInfo.token) {
-		next('/signin')
-	} else if (!to.meta.auth && authStore.userInfo.token) {
-		next('/')
-	} else {
-		next()
-	}
-})
+// 	if (to.meta.auth && !authStore.userInfo.token) {
+// 		next('/signin')
+// 	} else if (!to.meta.auth && authStore.userInfo.token) {
+// 		next('/')
+// 	} else {
+// 		next()
+// 	}
+// })
 
 export default router
