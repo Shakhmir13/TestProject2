@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -17,6 +18,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddCors();
+builder.Services.AddCookiePolicy(options => {
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+    options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None;
+    options.Secure = CookieSecurePolicy.None;
+    });
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(opt => {
@@ -80,11 +86,12 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
-app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+app.UseCors(builder => builder.WithOrigins("http://161.97.110.154:3000/", "http://localhost:5175/").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
+app.UseCookiePolicy();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API Title v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
     c.RoutePrefix = "swagger";
 });
 // Configure the HTTP request pipeline.
