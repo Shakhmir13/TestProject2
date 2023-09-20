@@ -78,7 +78,10 @@ namespace TestProject2.Controllers
             user.RefreshToken = _configuration.GenerateRefreshToken();
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_configuration.GetSection("Jwt:RefreshTokenValidityInDays").Get<int>());
             await _context.SaveChangesAsync();
-            //await _emailSender.SendEmailAsync(request.Email, "Токен", accessToken);
+
+            Response.Cookies.Append("accessToken", accessToken);
+            Response.Cookies.Append("Email", user.Email);
+
             return Ok(new AuthResponse
             {
                 Username = user.UserName!,
