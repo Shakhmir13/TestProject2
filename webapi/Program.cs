@@ -24,12 +24,9 @@ builder.Services.AddSession(options =>
     options.Cookie.Name = ".MyApp.Session"; 
     options.IdleTimeout = TimeSpan.FromMinutes(30); 
     options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
 });
-builder.Services.AddCookiePolicy(options => {
-    options.MinimumSameSitePolicy = SameSiteMode.None;
-    options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None;
-    options.Secure = CookieSecurePolicy.None;
-    });
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(opt => {
@@ -94,7 +91,6 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 app.UseCors(builder => builder.WithOrigins("http://161.97.110.154:3000", "http://localhost", "http://localhost:5173", "http://localhost:5175", "http://localhost:5174").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
-app.UseCookiePolicy();
 app.UseSession();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
