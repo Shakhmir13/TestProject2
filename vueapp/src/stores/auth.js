@@ -10,15 +10,18 @@ export const useAuthStore = defineStore('auth', {
 	},
 	actions: {
 		async handleLogin(data) {
-			await axios.post('/accounts/login', {
+			const response = await axios.post('/accounts/login', {
 				email: data.email,
 				password: data.password,
 			})
+			this.authUser = response.data
+			console.log(this.authUser)
+			console.log(this.authUser.token)
 			this.router.push('/')
 		},
 
 		async handleRegister(data) {
-			await axios.post('/accounts/register', {
+			const response = await axios.post('/accounts/register', {
 				email: data.email,
 				birthDate: data.birthDate,
 				password: data.password,
@@ -26,24 +29,8 @@ export const useAuthStore = defineStore('auth', {
 				firstName: data.firstName,
 				lastName: data.lastName,
 			})
+			this.authUser = response.data
 			this.router.push('/')
-		},
-
-		async getWeather() {
-			if (!this.authUser || !this.authUser.accessToken) {
-				console.error('AccessToken не найден.')
-				return
-			}
-
-			try {
-				const headers = {
-					Authorization: `Bearer ${authUser.accessToken}`,
-				}
-				const response = await axios.get('/WeatherForecast', { headers })
-				console.log(response.data)
-			} catch (error) {
-				console.error('Ошибка при получении данных о погоде:', error)
-			}
 		},
 	},
 })

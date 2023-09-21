@@ -19,9 +19,9 @@ const model = ref([
 				icon: 'pi pi-fw pi-user',
 				items: [
 					{
-						label: 'Login',
+						label: 'Logout',
 						icon: 'pi pi-fw pi-sign-in',
-						to: '/auth/login',
+						to: '/signin',
 					},
 				],
 			},
