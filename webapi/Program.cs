@@ -25,6 +25,8 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(30); 
     options.Cookie.IsEssential = true;
     options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.Domain = "http://localhost:5173";
+    options.Cookie.Domain = "http://161.97.110.154:3000";
 });
 
 builder.Services.AddControllers();
