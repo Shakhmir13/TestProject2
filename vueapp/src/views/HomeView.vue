@@ -10,7 +10,7 @@ const authStore = useAuthStore()
 const weathers = ref()
 
 const getWeather = async () => {
-	const token = authStore.user.token
+	const token = authStore.authUser.token
 	const headers = {
 		Authorization: `Bearer ${token}`,
 	}

@@ -1,9 +1,8 @@
+// import './api'
 import '@/styles/global.scss'
 import './axios'
 
 import { createPinia } from 'pinia'
-
-// import './api'
 
 import PrimeVue from 'primevue/config'
 import { createApp, markRaw } from 'vue'
@@ -13,9 +12,9 @@ import router from './router'
 
 const pinia = createPinia()
 
-pinia.use(({ store }) => {
-	store.router = markRaw(router)
-})
+// pinia.use(({ store }) => {
+// 	store.router = markRaw(router)
+// })
 
 createApp(App)
 	.use(pinia)
