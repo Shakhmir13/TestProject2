@@ -1,13 +1,13 @@
 <script setup>
-import Card from 'primevue/card'
-
-import axios from 'axios'
+import axiosApiInstance from '@/api'
 import { onMounted, ref } from 'vue'
+
+import Card from 'primevue/card'
 
 const weathers = ref()
 
 const getWeather = async () => {
-	const response = await axios.get('/WeatherForecast')
+	const response = await axiosApiInstance.get('/WeatherForecast')
 	weathers.value = response.data
 	console.log(response.data)
 }

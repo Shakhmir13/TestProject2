@@ -1,7 +1,8 @@
-import axios from 'axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router' // Import the useRouter function
+
+import axiosApiInstance from '@/api'
 
 export const useAuthStore = defineStore('auth', () => {
 	const authUser = ref({
@@ -15,7 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
 
 	const handleLogin = async data => {
 		try {
-			const response = await axios.post('/accounts/login', {
+			const response = await axiosApiInstance.post('/accounts/login', {
 				email: data.email,
 				password: data.password,
 			})
@@ -42,7 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
 
 	const handleRegister = async data => {
 		try {
-			const response = await axios.post('/accounts/register', {
+			const response = await axiosApiInstance.post('/accounts/register', {
 				email: data.email,
 				birthDate: data.birthDate,
 				password: data.password,
