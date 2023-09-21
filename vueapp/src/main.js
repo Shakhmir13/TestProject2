@@ -1,4 +1,4 @@
-// import './api'
+import './api'
 import '@/styles/global.scss'
 import './axios'
 

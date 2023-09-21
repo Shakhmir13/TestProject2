@@ -1,21 +1,13 @@
 <script setup>
 import Card from 'primevue/card'
 
-import { useAuthStore } from '@/stores/auth'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
-
-const authStore = useAuthStore()
 
 const weathers = ref()
 
 const getWeather = async () => {
-	const token = authStore.authUser.token
-	const headers = {
-		Authorization: `Bearer ${token}`,
-	}
-
-	const response = await axios.get('/WeatherForecast', { headers })
+	const response = await axios.get('/WeatherForecast')
 	weathers.value = response.data
 	console.log(response.data)
 }

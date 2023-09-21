@@ -1,4 +1,20 @@
 <script setup>
+import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
+const authStore = useAuthStore()
+
+const hasToken = computed(() => authStore.authUser.token)
+
+const checkUser = () => {
+	const tokens = JSON.parse(localStorage.getItem('userTokens'))
+	if (tokens) {
+		authStore.authUser.token = tokens.token
+		authStore.authUser.refreshToken = tokens.refreshToken
+	}
+	console.log(authStore.authUser)
+}
+
+checkUser()
 // const logout = () => {
 // 	authStore.logout()
 // 	localStorage.removeItem('userTokens')
