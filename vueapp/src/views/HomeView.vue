@@ -9,7 +9,6 @@ const weathers = ref()
 const getWeather = async () => {
 	const response = await axiosApiInstance.get('/WeatherForecast')
 	weathers.value = response.data
-	console.log(response.data)
 }
 
 onMounted(async () => {
