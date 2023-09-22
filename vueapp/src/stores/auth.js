@@ -84,6 +84,19 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 	}
 
+	const handleResetPassword = async resetData => {
+		try {
+			const response = await axiosApiInstance.post(
+				'/accounts/reset-password',
+				resetData
+			)
+			console.log(response.data)
+			router.push('/')
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	const logout = () => {
 		authUser.value = {
 			token: '',
@@ -95,5 +108,12 @@ export const useAuthStore = defineStore('auth', () => {
 		router.push('/signin')
 	}
 
-	return { authUser, handleLogin, handleRegister, handleForgotPassword, logout }
+	return {
+		authUser,
+		handleLogin,
+		handleRegister,
+		handleForgotPassword,
+		handleResetPassword,
+		logout,
+	}
 })

@@ -3,42 +3,45 @@ import Loader from '@/components/Loader.vue'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
 import { useAuthStore } from '@/stores/auth.js'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+
 const authStore = useAuthStore()
+const route = useRoute()
 
-const password = ref('')
-const passwordConfirm = ref('')
-
-const router = useRouter()
-
-const createNewPassword = async () => {
-	const userData = {
-		registration: false, // Указываем, что это операция входа
-		password: password.value,
-		passwordConfirm: passwordConfirm.value,
-	}
-
-	await authStore.createNewPassword(userData)
-	console.log('Выполнена createNewPassword')
-}
+const form = ref({
+	password: '',
+	passwordConfirm: '',
+	email: route.query.email,
+	validCode: route.query.validCode,
+})
 </script>
 
 <template>
 	<h2>Reset</h2>
 	<form class="flex flex-column gap-3">
 		<div class="p-inputgroup flex-1">
-			<InputText v-model="password" placeholder="New Password" />
+			<InputText
+				v-model="form.password"
+				type="password"
+				placeholder="New Password"
+			/>
 		</div>
 		<div class="p-inputgroup flex-1">
-			<InputText v-model="passwordConfirm" placeholder="Confirm New Password" />
+			<InputText
+				v-model="form.passwordConfirm"
+				type="password"
+				placeholder="Confirm New Password"
+			/>
 		</div>
 
-		<Loader v-if="authStore.loader" />
-		<div v-else class="flex flex-column gap-3">
-			<Button label="Create New Password" @click="createNewPassword" />
+		<Loader />
+		<div class="flex flex-column gap-3">
+			<Button
+				label="Create New Password"
+				@click="authStore.handleResetPassword(form)"
+			/>
 		</div>
 	</form>
 </template>
