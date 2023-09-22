@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth.js'
 
-import AppLayout from '@/layout/AppLayout.vue'
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue'
 import HomeView from '@/views/HomeView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
@@ -15,17 +14,11 @@ const router = createRouter({
 	routes: [
 		{
 			path: '/',
-			name: 'appLayout',
-			component: AppLayout,
+			name: 'HomeView',
+			component: HomeView,
 			meta: {
 				auth: true,
 			},
-			children: [
-				{
-					path: '/',
-					component: HomeView,
-				},
-			],
 		},
 		{
 			path: '/signup',
