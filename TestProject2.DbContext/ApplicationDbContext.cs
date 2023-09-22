@@ -11,6 +11,8 @@ namespace TestProject2.DbContext
         {
 
         }
-        
+        public DbSet<Shoes> Shoes { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Manufacturer> Manufacturers { get; set; }
     }
 }
