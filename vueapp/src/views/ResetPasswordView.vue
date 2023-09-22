@@ -13,8 +13,8 @@ const route = useRoute()
 const form = ref({
 	password: '',
 	passwordConfirm: '',
-	email: route.query.email,
-	validCode: route.query.validCode,
+	email: route.query.Email,
+	validCode: route.query.ValidCode,
 })
 </script>
 
