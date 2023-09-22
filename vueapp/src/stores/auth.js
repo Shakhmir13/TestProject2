@@ -72,6 +72,18 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 	}
 
+	const handleForgotPassword = async email => {
+		try {
+			const response = await axiosApiInstance.post('/accounts/request-reset', {
+				email: email,
+			})
+			console.log(response.data)
+			router.push('/')
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	const logout = () => {
 		authUser.value = {
 			token: '',
@@ -79,7 +91,9 @@ export const useAuthStore = defineStore('auth', () => {
 			username: '',
 			refreshToken: '',
 		}
+		localStorage.removeItem('userTokens')
+		router.push('/signin')
 	}
 
-	return { authUser, handleLogin, handleRegister, logout }
+	return { authUser, handleLogin, handleRegister, handleForgotPassword, logout }
 })

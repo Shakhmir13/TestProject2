@@ -15,11 +15,6 @@ const checkUser = () => {
 }
 
 checkUser()
-// const logout = () => {
-// 	authStore.logout()
-// 	localStorage.removeItem('userTokens')
-// 	router.push('/signin')
-// }
 </script>
 
 <template>
