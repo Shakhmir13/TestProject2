@@ -1,4 +1,7 @@
 <script setup>
+import MainBar from '@/components/MainBar.vue'
+import SideBar from '@/components/SideBar.vue'
+
 import axiosApiInstance from '@/api'
 import { onMounted, ref } from 'vue'
 
@@ -17,6 +20,10 @@ onMounted(async () => {
 </script>
 
 <template>
+	<div class="min-h-screen flex relative lg:static surface-ground">
+		<SideBar />
+		<MainBar />
+	</div>
 	<div>
 		<h2>Weather</h2>
 

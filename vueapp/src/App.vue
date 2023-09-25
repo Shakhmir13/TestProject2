@@ -1,7 +1,4 @@
 <script setup>
-import MainBar from '@/components/MainBar.vue'
-import SideBar from '@/components/SideBar.vue'
-
 import { useAuthStore } from '@/stores/auth'
 import { computed } from 'vue'
 const authStore = useAuthStore()
@@ -20,11 +17,6 @@ checkUser()
 </script>
 
 <template>
-	<div class="min-h-screen flex relative lg:static surface-ground">
-		<SideBar />
-		<MainBar />
-	</div>
-
 	<router-view />
 </template>
 
