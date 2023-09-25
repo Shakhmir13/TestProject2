@@ -37,8 +37,40 @@ namespace webapi.Controllers
         [HttpPost("CreateShoes")]
         public void CreateShoes(ShoesVM vm, IFormFile? file)
         {
-            _action.Shoes.Add(vm);
-            _action.Save();
+            if (ModelState.IsValid)
+            {
+                string fileName = String.Empty;
+                if (file != null)
+                {
+                    string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "ProductImage");
+                    fileName = Guid.NewGuid().ToString() + file.FileName;
+                    string filePath = Path.Combine(uploadPath, fileName);
+
+                    if (vm.shoes.ImageUrl != null)
+                    {
+                        var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, vm.shoes.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    vm.shoes.ImageUrl = @"\ProductImage\" + fileName;
+                }
+                if (vm.shoes.Id == 0)
+                {
+                    _action.Shoes.Add(vm.shoes);
+                }
+                else
+                {
+                    _action.Shoes.Update(vm.shoes);
+                }
+
+                _action.Save();
+            }
         }
     }
 }
