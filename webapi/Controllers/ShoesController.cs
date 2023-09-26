@@ -35,40 +35,32 @@ namespace webapi.Controllers
         }
 
         [HttpPost("CreateShoes")]
-        public void CreateShoes(ShoesVM vm, IFormFile? file)
+        [Consumes("multipart/form-data")]
+        public void CreateShoes([FromForm] ShoesVM vm)
         {
             if (ModelState.IsValid)
             {
                 string fileName = String.Empty;
-                if (file != null)
+                Shoes shoes = new Shoes();
+                if (vm.ImageData != null)
                 {
                     string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "ProductImage");
-                    fileName = Guid.NewGuid().ToString() + file.FileName;
+                    fileName = Guid.NewGuid().ToString() + vm.ImageData.FileName;
                     string filePath = Path.Combine(uploadPath, fileName);
-
-                    if (vm.shoes.ImageUrl != null)
-                    {
-                        var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, vm.shoes.ImageUrl.TrimStart('\\'));
-                        if (System.IO.File.Exists(oldImagePath))
-                        {
-                            System.IO.File.Delete(oldImagePath);
-                        }
-                    }
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        file.CopyTo(fileStream);
+                        vm.ImageData.CopyTo(fileStream);
                     }
-                    vm.shoes.ImageUrl = @"\ProductImage\" + fileName;
+                    shoes.ImageUrl = @"\ProductImage\" + fileName;
                 }
-                if (vm.shoes.Id == 0)
-                {
-                    _action.Shoes.Add(vm.shoes);
-                }
-                else
-                {
-                    _action.Shoes.Update(vm.shoes);
-                }
-
+                shoes.Name = vm.Name;
+                shoes.ManufacturerId = vm.ManufacturerId;
+                shoes.CategoryId = vm.CategoryId;
+                shoes.Description = vm.Description;
+                shoes.Price = vm.Price;
+                shoes.Category = _action.Category.GetT(x => x.Id == vm.CategoryId);
+                shoes.Manufacturer = _action.Manufacturer.GetT(x => x.Id == vm.ManufacturerId);
+                _action.Shoes.Add(shoes);
                 _action.Save();
             }
         }
