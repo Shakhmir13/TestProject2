@@ -2,6 +2,9 @@
 import Button from 'primevue/button'
 import Calendar from 'primevue/calendar'
 import InputText from 'primevue/inputtext'
+import Message from 'primevue/message'
+
+import Loader from '@/components/Loader.vue'
 
 import { useAuthStore } from '@/stores/auth.js'
 import { ref } from 'vue'
@@ -20,8 +23,11 @@ const form = ref({
 
 <template>
 	<div class="flex justify-content-center align-content-center flex-wrap pt-5">
-		<div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+		<div class="surface-card p-4 shadow-2 border-round w-full lg:w-4">
 			<h2 class="mb-5">Sign up</h2>
+			<Message v-if="authStore.authError" severity="warn">{{
+				authStore.authError
+			}}</Message>
 			<form class="flex flex-column gap-3">
 				<div class="p-inputgroup flex-1">
 					<InputText
@@ -70,8 +76,8 @@ const form = ref({
 						placeholder="Last Name"
 					/>
 				</div>
-
-				<div class="flex flex-column gap-3">
+				<Loader v-if="authStore.loader" />
+				<div v-else class="flex flex-column gap-3">
 					<Button label="Sign up" @click="authStore.handleRegister(form)" />
 					<span
 						>Are you already registered?

@@ -1,11 +1,11 @@
-import './api'
 import '@/styles/global.scss'
+import './api'
 import './axios'
 
 import { createPinia } from 'pinia'
 
 import PrimeVue from 'primevue/config'
-import { createApp, markRaw } from 'vue'
+import { createApp } from 'vue'
 
 import App from './App.vue'
 import router from './router'
