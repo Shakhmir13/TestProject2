@@ -30,4 +30,8 @@
     <ProjectReference Include="..\TestProject2.Utility\TestProject2.Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\ProductImage\" />
+  </ItemGroup>
+
 </Project>
