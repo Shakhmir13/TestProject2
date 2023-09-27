@@ -100,5 +100,23 @@ namespace webapi.Controllers
             var shoes = _action.Shoes.GetAll(x => x.ManufacturerId == manufacturerId, includeProperties: "Category,Manufacturer");
             return Ok(shoes);
         }
+        [HttpPut("UpdateCategoryById")]
+        public IActionResult UpdateCategoryById(int categoryId, string newName)
+        {
+            var category = _action.Category.GetT(x => x.Id == categoryId);
+            category.Name = newName;
+            _action.Category.Update(category);
+            _action.Save();
+            return Ok(category);
+        }
+        [HttpPut("UpdateManufacturerById")]
+        public IActionResult UpdateManufacturerById(int manufacturerId, string newName)
+        {
+            var manufacturer = _action.Manufacturer.GetT(x => x.Id == manufacturerId);
+            manufacturer.Name = newName;
+            _action.Manufacturer.Update(manufacturer);
+            _action.Save();
+            return Ok(manufacturer);
+        }
     }
 }
