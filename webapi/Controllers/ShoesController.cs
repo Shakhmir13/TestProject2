@@ -64,5 +64,41 @@ namespace webapi.Controllers
                 _action.Save();
             }
         }
+        [HttpGet("GetAllCategories")]
+        public IActionResult GetCategories()
+        {
+            var categories = _action.Category.GetAll();
+            return Ok(categories);
+        }
+        [HttpGet("GetAllManufacturers")]
+        public IActionResult GetManufacturers()
+        {
+            var manufacturers = _action.Manufacturer.GetAll();
+            return Ok(manufacturers);
+        }
+        [HttpGet("GetAllShoes")]
+        public IActionResult GetShoes()
+        {
+            var shoes = _action.Shoes.GetAll(includeProperties: "Category,Manufacturer");
+            return Ok(shoes);
+        }
+        [HttpPost("GetShoesByName")]
+        public IActionResult GetShoesByName(string? searchtext)
+        {
+            var shoes = _action.Shoes.GetAll(x => x.Name.Contains(searchtext), includeProperties: "Category,Manufacturer");
+            return Ok(shoes);
+        }
+        [HttpPost("GetShoesByCategory")]
+        public IActionResult GetShoesByCategory(int? categoryId)
+        {
+            var shoes = _action.Shoes.GetAll(x => x.CategoryId == categoryId, includeProperties: "Category,Manufacturer");
+            return Ok(shoes);
+        }
+        [HttpPost("GetShoesByManufacturer")]
+        public IActionResult GetShoesByManufacturer(int? manufacturerId)
+        {
+            var shoes = _action.Shoes.GetAll(x => x.ManufacturerId == manufacturerId, includeProperties: "Category,Manufacturer");
+            return Ok(shoes);
+        }
     }
 }
