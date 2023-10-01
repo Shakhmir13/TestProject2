@@ -6,6 +6,7 @@ import axiosApiInstance from '@/api'
 import { onMounted, ref } from 'vue'
 
 import Card from 'primevue/card'
+import Shoes from '../components/Shoes.vue'
 
 const weathers = ref()
 
@@ -25,8 +26,9 @@ onMounted(async () => {
 		<MainBar />
 	</div>
 	<div>
-		<h2>Weather</h2>
+		<Shoes />
 
+		<h2>Weather</h2>
 		<div class="flex flex-column gap-3">
 			<Card v-for="(weather, i) in weathers" :key="i">
 				<template #title> {{ weather.summary }} </template>
