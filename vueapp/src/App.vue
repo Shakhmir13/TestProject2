@@ -19,7 +19,7 @@ const checkUser = () => {
 
 checkUser()
 
-const visible = ref(true)
+const visible = ref(false)
 </script>
 
 <template>
