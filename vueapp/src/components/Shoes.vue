@@ -7,7 +7,6 @@ const shoesStore = useShoesStore()
 
 onMounted(async () => {
 	await shoesStore.getAllShoes()
-	console.log(shoesStore.shoes)
 })
 </script>
 

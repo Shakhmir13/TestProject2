@@ -58,7 +58,7 @@ const router = createRouter({
 			name: 'Test',
 			component: Test,
 			meta: {
-				auth: false,
+				auth: true,
 			},
 		},
 	],
