@@ -123,6 +123,7 @@ namespace webapi.Controllers
         {
             var shoes = _action.Shoes.GetT(x => x.Id ==  shoesId);
             _action.Shoes.Delete(shoes);
+            _action.Save();
             return Ok();
         }
     }
