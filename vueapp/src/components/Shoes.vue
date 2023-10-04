@@ -13,9 +13,8 @@ onMounted(async () => {
 <template>
 	<div class="flex flex-column gap-3">
 		<Card v-for="(shoe, i) in shoesStore.shoes" :key="i">
-			{{ shoesStore.name }}
 			<template #header>
-				<img alt="user header" src="/images/usercard.png" />
+				<img :alt="shoe.name" :src="shoe.imageUrl" />
 			</template>
 			<template #title> {{ shoe.name }} </template>
 			<template #subtitle> {{ shoe.price }} </template>
