@@ -1,5 +1,6 @@
 <script setup>
 import { useShoesStore } from '@/stores/shoes.js'
+import Button from 'primevue/button'
 import Card from 'primevue/card'
 import { onMounted } from 'vue'
 
@@ -11,17 +12,52 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div class="flex flex-column gap-3">
-		<Card v-for="(shoe, i) in shoesStore.shoes" :key="i">
-			<template #header>
-				<img :alt="shoe.name" :src="shoe.imageUrl" />
-			</template>
-			<template #title> {{ shoe.name }} </template>
-			<template #subtitle> {{ shoe.price }} </template>
-			<template #content>
-				<p>{{ shoe.description }}</p>
-			</template>
-		</Card>
+	<div class="grid">
+		<div
+			class="col-12 md:col-6 lg:col-3"
+			v-for="(shoe, i) in shoesStore.shoes"
+			:key="i"
+		>
+			<div class="text-center p-3 border-round-sm">
+				<Card class="overflow-hidden shadow-5">
+					<template #header>
+						<img class="w-10" :alt="shoe.name" :src="shoe.imageUrl" />
+					</template>
+
+					<template #title>
+						<div
+							class="flex align-items-center justify-content-between mt-3 mb-2"
+						>
+							<span
+								class="text-900 font-medium text-1xl font-bold text-gray-700"
+								>{{ shoe.name }}</span
+							>
+							<span class="text-900 text-xl ml-3">$14</span>
+						</div>
+					</template>
+
+					<template #content>
+						<div class="flex align-items-center justify-content-between">
+							<Button
+								raised
+								rounded
+								severity="success"
+								icon="pi pi-shopping-bag"
+								label="Buy now"
+							/>
+							<Button
+								icon="pi pi-heart"
+								severity="warning"
+								text
+								raised
+								rounded
+								aria-label="Favorite"
+							/>
+						</div>
+					</template>
+				</Card>
+			</div>
+		</div>
 	</div>
 </template>
 
