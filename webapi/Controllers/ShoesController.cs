@@ -118,5 +118,12 @@ namespace webapi.Controllers
             _action.Save();
             return Ok(manufacturer);
         }
+        [HttpDelete("DeleteShoesById")]
+        public IActionResult DeleteShoesById(int shoesId)
+        {
+            var shoes = _action.Shoes.GetT(x => x.Id ==  shoesId);
+            _action.Shoes.Delete(shoes);
+            return Ok();
+        }
     }
 }
