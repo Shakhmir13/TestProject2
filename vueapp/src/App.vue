@@ -55,7 +55,13 @@ const visible = ref(false)
 				class="flex justify-content-between align-items-center px-5 surface-0 border-bottom-1 surface-border relative lg:static"
 				style="height: 60px"
 			>
-				<Button icon="pi pi-bars" @click="visible = true" />
+				<Button
+					size="large"
+					text
+					rounded
+					icon="pi pi-bars"
+					@click="visible = true"
+				/>
 				поиск часть
 			</div>
 			<div class="p-5 flex flex-column flex-auto">

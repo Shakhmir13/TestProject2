@@ -16,7 +16,7 @@ onMounted(async () => {
 		<div
 			class="col-12 md:col-6 lg:col-3"
 			v-for="(shoe, i) in shoesStore.shoes"
-			:key="i"
+			:key="shoe.id"
 		>
 			<div class="text-center p-3 border-round-sm">
 				<Card class="overflow-hidden shadow-5">
@@ -26,13 +26,13 @@ onMounted(async () => {
 
 					<template #title>
 						<div
-							class="flex align-items-center justify-content-between mt-3 mb-2"
+							class="flex align-items-center justify-content-between mt-3 mb-2 h-1rem"
 						>
 							<span
-								class="text-900 font-medium text-1xl font-bold text-gray-700"
+								class="text-left text-900 font-medium text-1xl font-bold text-gray-700"
 								>{{ shoe.name }}</span
 							>
-							<span class="text-900 text-xl ml-3">$14</span>
+							<span class="text-900 text-xl ml-3">${{ shoe.price }}</span>
 						</div>
 					</template>
 
