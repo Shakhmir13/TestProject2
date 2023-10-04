@@ -51,7 +51,7 @@ namespace webapi.Controllers
                     {
                         vm.ImageData.CopyTo(fileStream);
                     }
-                    shoes.ImageUrl = filePath;
+                    shoes.ImageUrl = @"http://161.97.110.154/ProductImage/" + fileName;
                 }
                 shoes.Name = vm.Name;
                 shoes.ManufacturerId = vm.ManufacturerId;
