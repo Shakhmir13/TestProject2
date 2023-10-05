@@ -1,6 +1,5 @@
 <script setup>
 import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
 import Sidebar from 'primevue/sidebar'
 import { ref } from 'vue'
 
@@ -63,10 +62,6 @@ const visible = ref(false)
 					icon="pi pi-bars"
 					@click="visible = true"
 				/>
-				<span class="p-input-icon-left">
-					<i class="pi pi-search" />
-					<InputText v-model="value1" placeholder="Search" />
-				</span>
 			</div>
 			<div class="p-5 flex flex-column flex-auto">
 				<!--низ-->

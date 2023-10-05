@@ -18,6 +18,18 @@ const form = ref({
 
 <template>
 	<div class="flex justify-content-center align-content-center flex-wrap pt-5">
+		<div
+			class="flex flex-column surface-card p-4 shadow-2 border-round w-full lg:w-4 gap-1"
+		>
+			<span class="font-bold text-lg">For guest:</span>
+			<span class="font-bold"
+				>Login: <span class="font-normal">admin@admin.kz</span></span
+			><span class="font-bold"
+				>Password: <span class="font-normal">Qwerty123!</span></span
+			>
+		</div>
+	</div>
+	<div class="flex justify-content-center align-content-center flex-wrap pt-5">
 		<div class="surface-card p-4 shadow-2 border-round w-full lg:w-4">
 			<h2 class="mb-5">Sign in</h2>
 			<Message v-if="authStore.authError" severity="warn">{{

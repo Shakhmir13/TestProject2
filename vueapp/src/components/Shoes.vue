@@ -1,4 +1,6 @@
 <script setup>
+import InputText from 'primevue/inputtext'
+
 import { useShoesStore } from '@/stores/shoes.js'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
@@ -12,6 +14,10 @@ onMounted(async () => {
 </script>
 
 <template>
+	<span class="p-input-icon-left px-3">
+		<i class="pi pi-search px-3" />
+		<InputText placeholder="Search" />
+	</span>
 	<div class="grid">
 		<div
 			class="col-12 md:col-6 lg:col-3"
