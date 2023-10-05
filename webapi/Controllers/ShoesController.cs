@@ -20,6 +20,7 @@ namespace webapi.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost("CreateCategory")]
         public void CreateCategory([FromBody] Category category)
         {

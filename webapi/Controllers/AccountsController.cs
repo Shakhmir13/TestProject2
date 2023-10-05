@@ -41,7 +41,7 @@ namespace TestProject2.Controllers
         [HttpPost("login")]
         [ProducesResponseType(typeof(AuthResponse), 200)]
         [ProducesResponseType(typeof(string), 400)]
-        public async Task<ActionResult<AuthResponse>> Authenticate([FromBody] AuthRequest request)
+        public async Task<ActionResult<AuthResponse>> Authenticate([FromForm] AuthRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace TestProject2.Controllers
         [HttpPost("register")]
         [ProducesResponseType(typeof(AuthResponse), 200)]
         [ProducesResponseType(typeof(string), 400)]
-        public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
+        public async Task<ActionResult<AuthResponse>> Register([FromForm] RegisterRequest request)
         {
             if (request.Password == null)
             {
@@ -177,6 +177,15 @@ namespace TestProject2.Controllers
             if (!result.Succeeded) return BadRequest(request);
             var findUser = _context.Users.FirstOrDefault(x => x.Email == request.Email.ToLower());
             if (findUser == null) throw new Exception($"User {request.Email} not found");
+            if (findUser.Email == "admin@admin.kz")
+            {
+                await _userManager.AddToRoleAsync(findUser, RoleConsts.Administrator);
+                return await Authenticate(new AuthRequest
+                {
+                    Email = request.Email,
+                    Password = request.Password
+                });
+            }
             if (!await _roleManager.RoleExistsAsync(RoleConsts.Member))
             {
                 var role = new IdentityRole<long>(RoleConsts.Member);
@@ -259,7 +268,7 @@ namespace TestProject2.Controllers
         /// <returns>Отправляет письмо с сылкой восстановления пароля на указанную почту.</returns>
         [HttpPost]
         [Route("request-reset")]
-        public async Task<IActionResult> RequestPasswordReset([FromBody] EmailModel model)
+        public async Task<IActionResult> RequestPasswordReset([FromForm] EmailModel model)
         {
             if (!ModelState.IsValid)
             {
