@@ -28,6 +28,7 @@ namespace webapi.Controllers
             _action.Save();
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost("CreateManufacturer")]
         public void CreateManufacturer([FromBody] Manufacturer manufacturer)
         {
@@ -35,6 +36,7 @@ namespace webapi.Controllers
             _action.Save();
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost("CreateShoes")]
         [Consumes("multipart/form-data")]
         public void CreateShoes([FromForm] ShoesVM vm)
@@ -101,6 +103,7 @@ namespace webapi.Controllers
             var shoes = _action.Shoes.GetAll(x => x.ManufacturerId == manufacturerId, includeProperties: "Category,Manufacturer");
             return Ok(shoes);
         }
+        [Authorize(Roles = "Administrator")]
         [HttpPut("UpdateCategoryById")]
         public IActionResult UpdateCategoryById(int categoryId, string newName)
         {
@@ -110,6 +113,7 @@ namespace webapi.Controllers
             _action.Save();
             return Ok(category);
         }
+        [Authorize(Roles = "Administrator")]
         [HttpPut("UpdateManufacturerById")]
         public IActionResult UpdateManufacturerById(int manufacturerId, string newName)
         {
@@ -119,6 +123,7 @@ namespace webapi.Controllers
             _action.Save();
             return Ok(manufacturer);
         }
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("DeleteShoesById")]
         public IActionResult DeleteShoesById(int shoesId)
         {
