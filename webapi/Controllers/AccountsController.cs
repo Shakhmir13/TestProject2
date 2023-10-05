@@ -177,7 +177,7 @@ namespace TestProject2.Controllers
             if (!result.Succeeded) return BadRequest(request);
             var findUser = _context.Users.FirstOrDefault(x => x.Email == request.Email.ToLower());
             if (findUser == null) throw new Exception($"User {request.Email} not found");
-            if (findUser.Email == "shakhmir@siroca.com")
+            if (findUser.Email == "admin@admin.com")
             {
                 await _userManager.AddToRoleAsync(findUser, RoleConsts.Administrator);
                 return await Authenticate(new AuthRequest
