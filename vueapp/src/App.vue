@@ -1,5 +1,6 @@
 <script setup>
 import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
 import Sidebar from 'primevue/sidebar'
 import { ref } from 'vue'
 
@@ -52,7 +53,7 @@ const visible = ref(false)
 		<div class="min-h-screen flex flex-column relative flex-auto">
 			<div
 				v-if="hasToken"
-				class="flex justify-content-between align-items-center px-5 surface-0 border-bottom-1 surface-border relative lg:static"
+				class="flex justify-content-start align-items-center surface-0 border-bottom-1 surface-border relative lg:static"
 				style="height: 60px"
 			>
 				<Button
@@ -62,7 +63,10 @@ const visible = ref(false)
 					icon="pi pi-bars"
 					@click="visible = true"
 				/>
-				поиск часть
+				<span class="p-input-icon-left">
+					<i class="pi pi-search" />
+					<InputText v-model="value1" placeholder="Search" />
+				</span>
 			</div>
 			<div class="p-5 flex flex-column flex-auto">
 				<!--низ-->
