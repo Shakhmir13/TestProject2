@@ -82,19 +82,19 @@ namespace webapi.Controllers
             var shoes = _action.Shoes.GetAll(includeProperties: "Category,Manufacturer");
             return Ok(shoes);
         }
-        [HttpPost("GetShoesByName")]
+        [HttpGet("GetShoesByName")]
         public IActionResult GetShoesByName(string? searchtext)
         {
-            var shoes = _action.Shoes.GetAll(x => x.Name.Contains(searchtext), includeProperties: "Category,Manufacturer");
+            var shoes = _action.Shoes.GetAll(x => x.Name.ToLower().Contains(searchtext.ToLower()), includeProperties: "Category,Manufacturer");
             return Ok(shoes);
         }
-        [HttpPost("GetShoesByCategory")]
+        [HttpGet("GetShoesByCategory")]
         public IActionResult GetShoesByCategory(int? categoryId)
         {
             var shoes = _action.Shoes.GetAll(x => x.CategoryId == categoryId, includeProperties: "Category,Manufacturer");
             return Ok(shoes);
         }
-        [HttpPost("GetShoesByManufacturer")]
+        [HttpGet("GetShoesByManufacturer")]
         public IActionResult GetShoesByManufacturer(int? manufacturerId)
         {
             var shoes = _action.Shoes.GetAll(x => x.ManufacturerId == manufacturerId, includeProperties: "Category,Manufacturer");
