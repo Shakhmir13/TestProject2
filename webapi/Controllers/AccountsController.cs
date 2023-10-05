@@ -41,7 +41,7 @@ namespace TestProject2.Controllers
         [HttpPost("login")]
         [ProducesResponseType(typeof(AuthResponse), 200)]
         [ProducesResponseType(typeof(string), 400)]
-        public async Task<ActionResult<AuthResponse>> Authenticate([FromForm] AuthRequest request)
+        public async Task<ActionResult<AuthResponse>> Authenticate([FromBody] AuthRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace TestProject2.Controllers
         [HttpPost("register")]
         [ProducesResponseType(typeof(AuthResponse), 200)]
         [ProducesResponseType(typeof(string), 400)]
-        public async Task<ActionResult<AuthResponse>> Register([FromForm] RegisterRequest request)
+        public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
         {
             if (request.Password == null)
             {
@@ -268,7 +268,7 @@ namespace TestProject2.Controllers
         /// <returns>Отправляет письмо с сылкой восстановления пароля на указанную почту.</returns>
         [HttpPost]
         [Route("request-reset")]
-        public async Task<IActionResult> RequestPasswordReset([FromForm] EmailModel model)
+        public async Task<IActionResult> RequestPasswordReset([FromBody] EmailModel model)
         {
             if (!ModelState.IsValid)
             {
