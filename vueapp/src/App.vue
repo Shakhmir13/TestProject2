@@ -20,26 +20,36 @@ const checkUser = () => {
 checkUser()
 
 const visible = ref(false)
+const closeSidebar = () => {
+	visible.value = false
+}
 </script>
 
 <template>
 	<div class="min-h-screen flex relative lg:static surface-ground">
 		<!--SideBar-->
-		<Sidebar v-model:visible="visible" class="flex flex-column h-full">
+		<Sidebar
+			v-model:visible="visible"
+			class="flex flex-column h-full"
+			:showCloseIcon="false"
+		>
 			<h2>Menu</h2>
 			<router-link
+				@click="closeSidebar"
 				to="/"
 				class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
 				><i class="pi pi-home mr-2"></i>
 				<span class="font-medium">Home</span>
 			</router-link>
 			<router-link
+				@click="closeSidebar"
 				to="/test"
 				class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
 				><i class="pi pi-bookmark mr-2"></i>
 				<span class="font-medium">Test</span>
 			</router-link>
 			<router-link
+				@click="closeSidebar"
 				to="/signin"
 				@click.prevent="authStore.logout"
 				class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
