@@ -10,5 +10,14 @@ export const useShoesStore = defineStore('shoes', () => {
 		shoes.value = response.data
 		console.log(shoes.value)
 	}
-	return { shoes, getAllShoes }
+
+	const getShoesByName = async search => {
+		const response = await axiosApiInstance.get(
+			`/shoes/getShoesByName?searchtext=${search}`
+		)
+		shoes.value = response.data
+		console.log(shoes.value)
+	}
+
+	return { shoes, getAllShoes, getShoesByName }
 })

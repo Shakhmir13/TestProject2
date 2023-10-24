@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue'
+
 import InputText from 'primevue/inputtext'
 
 import { useShoesStore } from '@/stores/shoes.js'
@@ -11,12 +13,18 @@ const shoesStore = useShoesStore()
 onMounted(async () => {
 	await shoesStore.getAllShoes()
 })
+
+const searchShoe = ref('')
 </script>
 
 <template>
-	<span class="p-input-icon-left px-3">
+	<span class="p-input-icon-left px-3 flex gap-2">
 		<i class="pi pi-search px-3" />
-		<InputText placeholder="Search" />
+		<InputText placeholder="Search" v-model="searchShoe" />
+		<Button
+			icon="pi pi-search"
+			@click="shoesStore.getShoesByName(searchShoe)"
+		></Button>
 	</span>
 	<div class="grid">
 		<div
