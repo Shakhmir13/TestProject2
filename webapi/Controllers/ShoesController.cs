@@ -88,7 +88,7 @@ namespace webapi.Controllers
         [HttpGet("GetShoesByName")]
         public IActionResult GetShoesByName(string? searchtext)
         {
-            var shoes = _action.Shoes.GetAll(x => x.Name.ToLower().Contains(searchtext.ToLower()), includeProperties: "Category,Manufacturer");
+            var shoes = _action.Shoes.GetAll(x => x.Name.ToLower().Contains(searchtext.ToLower()) || x.Manufacturer.Name.ToLower().Contains(searchtext.ToLower()), includeProperties: "Category,Manufacturer");
             return Ok(shoes);
         }
         [HttpGet("GetShoesByCategory")]
