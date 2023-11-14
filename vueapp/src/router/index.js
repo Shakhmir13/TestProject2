@@ -7,7 +7,8 @@ import HomeView from '@/views/HomeView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 import SignInView from '@/views/SignInView.vue'
 import SignUpView from '@/views/SignUpView.vue'
-import Test from '@/views/Test.vue'
+import ShoesDetail from '@/views/shoes/ShoesDetail.vue'
+import ShoesList from '@/views/shoes/ShoesList.vue'
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -17,6 +18,23 @@ const router = createRouter({
 			path: '/',
 			name: 'HomeView',
 			component: HomeView,
+			meta: {
+				auth: true,
+			},
+		},
+		{
+			path: '/shoes',
+			name: 'ShoesList',
+			component: ShoesList,
+			meta: {
+				auth: true,
+			},
+		},
+		{
+			path: '/shoes/:id',
+			props: true,
+			name: 'ShoesDetail',
+			component: ShoesDetail,
 			meta: {
 				auth: true,
 			},
@@ -51,14 +69,6 @@ const router = createRouter({
 			component: ResetPasswordView,
 			meta: {
 				auth: false,
-			},
-		},
-		{
-			path: '/test',
-			name: 'Test',
-			component: Test,
-			meta: {
-				auth: true,
 			},
 		},
 	],

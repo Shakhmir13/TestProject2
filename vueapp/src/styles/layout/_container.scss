@@ -1,0 +1,26 @@
+.container {
+	margin: 0 auto;
+	max-width: 100%;
+}
+
+@media (min-width: 768px) {
+	.container {
+		max-width: 100%;
+	}
+
+	.container {
+		max-width: 680px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.container {
+		max-width: 944px !important;
+	}
+}
+
+@media (min-width: 1200px) {
+	.container {
+		max-width: 1120px !important;
+	}
+}
