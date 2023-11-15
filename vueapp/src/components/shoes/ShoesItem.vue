@@ -1,15 +1,18 @@
 <template>
 	<li>
-		<img :src="imageUrl" :alt="name" />
-		<div class="info">
-			<h3>Name: {{ name }}</h3>
-			<!-- <p>Description: {{ description }}</p> -->
-			<p>Price: {{ price }} $</p>
-		</div>
+		<router-link :to="shoesDetailsLink">
+			<img :src="imageUrl" :alt="name" />
+			<div class="info">
+				<h3>Name: {{ name }}</h3>
+				<p>Price: {{ price }} $</p>
+			</div>
+		</router-link>
 	</li>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
 	id: {
 		type: Number,
@@ -32,6 +35,10 @@ const props = defineProps({
 		required: true,
 	},
 })
+
+const shoesDetailsLink = computed(() => {
+	return `/shoes/${props.id}`
+})
 </script>
 
 <style lang="scss" scoped>
@@ -42,11 +49,13 @@ li {
 	border-radius: 8px;
 	overflow: hidden;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 10px;
 }
 img {
-	width: 250px;
-	height: auto;
-	border-bottom: 1px solid #ddd;
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	object-position: bottom right;
 }
 
 .card .info {

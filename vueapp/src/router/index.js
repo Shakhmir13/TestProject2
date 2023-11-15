@@ -16,6 +16,7 @@ const router = createRouter({
 	routes: [
 		{
 			path: '/',
+			redirect: '/shoes',
 			name: 'HomeView',
 			component: HomeView,
 			meta: {

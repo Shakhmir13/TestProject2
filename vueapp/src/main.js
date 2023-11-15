@@ -7,6 +7,8 @@ import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
 import { createApp } from 'vue'
 
+import BaseButton from '@/components/ui/BaseButton.vue'
+
 import App from './App.vue'
 import router from './router'
 
@@ -16,4 +18,5 @@ createApp(App)
 	.use(pinia)
 	.use(router)
 	.use(PrimeVue, { ripple: true })
+	.component('base-button', BaseButton)
 	.mount('#app')
