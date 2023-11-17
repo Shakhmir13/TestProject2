@@ -1,7 +1,12 @@
 <template>
 	<div class="container surface-300">
 		<section>Menu</section>
-		<section>filters</section>
+		<base-container>
+			<base-search
+				@search="updateSearch"
+				:search-term="enteredSearchTerm"
+			></base-search>
+		</base-container>
 		<section>
 			<ul>
 				<shoes-item
@@ -25,6 +30,18 @@ import { useShoesStore } from '@/stores/shoes.js'
 import { onMounted } from 'vue'
 
 const shoesStore = useShoesStore()
+
+// const enteredSearchTerm = ref('')
+// const filteredShoes = computed(() => {
+// 	const term = searchTerm.value.toLowerCase()
+// 	return shoesStore.shoes.filter(shoe => shoe.name.toLowerCase().includes(term))
+// })
+// function updateSearch(val) {
+// 	enteredSearchTerm.value = val
+// 	const searchedShoe = shoesStore.shoes.find(shoe => shoe.name === val)
+// 	console.log(searchedShoe)
+// 	console.log('shoesList fn')
+// }
 
 onMounted(async () => {
 	await shoesStore.getAllShoes()
