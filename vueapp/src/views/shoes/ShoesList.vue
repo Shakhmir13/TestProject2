@@ -27,6 +27,7 @@
 </template>
 
 <script setup>
+//TODO: сделать так, чтобы при перезагрузке страницы не было видно h2
 import ShoesItem from '@/components/shoes/ShoesItem.vue'
 
 import { useShoesStore } from '@/stores/shoes.js'

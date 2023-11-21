@@ -4,7 +4,7 @@
 			type="search"
 			@input="search"
 			:value="searchTerm"
-			placeholder="Filter items"
+			placeholder="Search..."
 		/>
 	</form>
 </template>
@@ -19,7 +19,6 @@ const emit = defineEmits(['search'])
 
 const search = event => {
 	emit('search', event.target.value)
-	console.log('base search fn')
 }
 </script>
 
