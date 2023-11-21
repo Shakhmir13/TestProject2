@@ -7,7 +7,6 @@
 <style scoped>
 section {
 	display: flex;
-	flex-direction: column;
 	border: 1px solid #ccc;
 	border-radius: 8px;
 	overflow: hidden;

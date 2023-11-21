@@ -9,6 +9,7 @@
 		</base-container>
 		<section>
 			<base-container>
+				<shoes-filters class="filters">фильтры</shoes-filters>
 				<h2 v-if="!filteredShoes.length > 0">Упс, таких кроссовок нету</h2>
 				<ul v-else>
 					<shoes-item
@@ -29,6 +30,7 @@
 <script setup>
 //TODO: сделать так, чтобы при перезагрузке страницы не было видно h2
 import ShoesItem from '@/components/shoes/ShoesItem.vue'
+import ShoesFilters from '@/components/shoes/ShoesFilters.vue'
 
 import { useShoesStore } from '@/stores/shoes.js'
 import { computed, onMounted, ref, watch } from 'vue'
@@ -70,8 +72,6 @@ watch(enteredSearchTerm, function (newValue) {
 
 onMounted(async () => {
 	await shoesStore.getAllShoes()
-	// const selectedShoeFromStore = shoesStore.shoes
-	// console.log(selectedShoeFromStore)
 })
 </script>
 
@@ -82,7 +82,9 @@ ul {
 	padding: 0;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: end;
+	flex: 1; // чтобы у фильтров было место слева
 	gap: 20px;
+	background-color: bisque; // просмотра
 }
 </style>
