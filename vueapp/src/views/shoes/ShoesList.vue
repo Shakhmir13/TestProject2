@@ -8,17 +8,20 @@
 			></base-search>
 		</base-container>
 		<section>
-			<ul>
-				<shoes-item
-					v-for="shoe in filteredShoes"
-					:key="shoe.id"
-					:id="shoe.id"
-					:name="shoe.name"
-					:description="shoe.description"
-					:imageUrl="shoe.imageUrl"
-					:price="shoe.price"
-				></shoes-item>
-			</ul>
+			<base-container>
+				<h2 v-if="!filteredShoes.length > 0">Упс, таких кроссовок нету</h2>
+				<ul v-else>
+					<shoes-item
+						v-for="shoe in filteredShoes"
+						:key="shoe.id"
+						:id="shoe.id"
+						:name="shoe.name"
+						:description="shoe.description"
+						:imageUrl="shoe.imageUrl"
+						:price="shoe.price"
+					></shoes-item>
+				</ul>
+			</base-container>
 		</section>
 	</div>
 </template>

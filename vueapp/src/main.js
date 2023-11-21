@@ -10,6 +10,7 @@ import { createApp } from 'vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseSearch from '@/components/ui/BaseSearch.vue'
 import BaseContainer from '@/components/ui/BaseContainer.vue'
+import BaseCard from '@/components/ui/BaseCard.vue'
 
 import App from './App.vue'
 import router from './router'
@@ -23,4 +24,5 @@ createApp(App)
 	.component('base-button', BaseButton)
 	.component('base-search', BaseSearch)
 	.component('base-container', BaseContainer)
+	.component('base-card', BaseCard)
 	.mount('#app')
