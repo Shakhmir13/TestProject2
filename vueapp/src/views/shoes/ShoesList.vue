@@ -37,8 +37,14 @@ const activeSearchTerm = ref('')
 // Фильтрация массива обуви на основе введенного поискового запроса
 const filteredShoes = computed(() => {
 	if (activeSearchTerm.value) {
-		return shoesStore.shoes.filter(shoe =>
-			shoe.name.toLowerCase().includes(activeSearchTerm.value.toLowerCase())
+		return shoesStore.shoes.filter(
+			shoe =>
+				shoe.name
+					.toLowerCase()
+					.includes(activeSearchTerm.value.toLowerCase()) ||
+				shoe.manufacturer.name
+					.toLowerCase()
+					.includes(activeSearchTerm.value.toLowerCase())
 		)
 	} else {
 		return shoesStore.shoes
@@ -60,8 +66,8 @@ watch(enteredSearchTerm, function (newValue) {
 
 onMounted(async () => {
 	await shoesStore.getAllShoes()
-	const selectedShoeFromStore = shoesStore.shoes
-	console.log(selectedShoeFromStore)
+	// const selectedShoeFromStore = shoesStore.shoes
+	// console.log(selectedShoeFromStore)
 })
 </script>
 
