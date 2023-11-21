@@ -10,7 +10,7 @@
 		<section>
 			<ul>
 				<shoes-item
-					v-for="shoe in shoesStore.shoes"
+					v-for="shoe in filteredShoes"
 					:key="shoe.id"
 					:id="shoe.id"
 					:name="shoe.name"
@@ -27,24 +27,41 @@
 import ShoesItem from '@/components/shoes/ShoesItem.vue'
 
 import { useShoesStore } from '@/stores/shoes.js'
-import { onMounted } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 const shoesStore = useShoesStore()
 
-// const enteredSearchTerm = ref('')
-// const filteredShoes = computed(() => {
-// 	const term = searchTerm.value.toLowerCase()
-// 	return shoesStore.shoes.filter(shoe => shoe.name.toLowerCase().includes(term))
-// })
-// function updateSearch(val) {
-// 	enteredSearchTerm.value = val
-// 	const searchedShoe = shoesStore.shoes.find(shoe => shoe.name === val)
-// 	console.log(searchedShoe)
-// 	console.log('shoesList fn')
-// }
+const enteredSearchTerm = ref('')
+const activeSearchTerm = ref('')
+
+// Фильтрация массива обуви на основе введенного поискового запроса
+const filteredShoes = computed(() => {
+	if (activeSearchTerm.value) {
+		return shoesStore.shoes.filter(shoe =>
+			shoe.name.toLowerCase().includes(activeSearchTerm.value.toLowerCase())
+		)
+	} else {
+		return shoesStore.shoes
+	}
+})
+
+// Метод для обновления поискового запроса
+const updateSearch = val => {
+	enteredSearchTerm.value = val
+}
+
+watch(enteredSearchTerm, function (newValue) {
+	setTimeout(() => {
+		if (newValue === enteredSearchTerm.value) {
+			activeSearchTerm.value = newValue
+		}
+	}, 300)
+})
 
 onMounted(async () => {
 	await shoesStore.getAllShoes()
+	const selectedShoeFromStore = shoesStore.shoes
+	console.log(selectedShoeFromStore)
 })
 </script>
 
