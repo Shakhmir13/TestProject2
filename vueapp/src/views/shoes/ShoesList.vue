@@ -10,8 +10,8 @@
 		<section>
 			<base-container>
 				<shoes-filters class="filters">фильтры</shoes-filters>
-				<h2 v-if="!filteredShoes.length > 0">Упс, таких кроссовок нету</h2>
-				<ul v-else>
+				<!-- <h2 v-if="!filteredShoes.length > 0">Упс, таких кроссовок нету</h2> -->
+				<ul>
 					<shoes-item
 						v-for="shoe in filteredShoes"
 						:key="shoe.id"
@@ -31,7 +31,7 @@
 //TODO: сделать так, чтобы при перезагрузке страницы не было видно h2
 import ShoesItem from '@/components/shoes/ShoesItem.vue'
 import ShoesFilters from '@/components/shoes/ShoesFilters.vue'
-
+// import useSearch from '../../hooks/search'
 import { useShoesStore } from '@/stores/shoes.js'
 import { computed, onMounted, ref, watch } from 'vue'
 
