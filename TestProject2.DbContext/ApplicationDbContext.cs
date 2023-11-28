@@ -14,5 +14,8 @@ namespace TestProject2.DbContext
         public DbSet<Shoes> Shoes { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
     }
 }
