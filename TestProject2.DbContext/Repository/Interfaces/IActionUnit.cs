@@ -12,6 +12,9 @@ namespace TestProject2.DbContext.Repository.Interfaces
         CategoryRepository Category { get; }
         ManufacturerRepository Manufacturer { get; }
         ShoesRepository Shoes { get; }
+        CartRepository Cart { get; }
+        OrderRepository Order { get; }
+        OrderDetailRepository OrderDetail { get; }
         void Save();
     }
 }

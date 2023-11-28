@@ -14,6 +14,9 @@ namespace TestProject2.DbContext.Repository
         public CategoryRepository Category { get; private set; }
         public ManufacturerRepository Manufacturer { get; private set; }
         public ShoesRepository Shoes { get; private set; }
+        public CartRepository Cart { get; private set; }
+        public OrderRepository Order { get; private set; }
+        public OrderDetailRepository OrderDetail { get; private set; }
         public ActionUnit(ApplicationDbContext context)
         {
             _context = context;
@@ -21,6 +24,9 @@ namespace TestProject2.DbContext.Repository
             Category = new CategoryRepository(context);
             Manufacturer = new ManufacturerRepository(context);
             Shoes = new ShoesRepository(context);
+            Cart = new CartRepository(context);
+            Order = new OrderRepository(context);
+            OrderDetail = new OrderDetailRepository(context);
         }
         public void Save()
         {
